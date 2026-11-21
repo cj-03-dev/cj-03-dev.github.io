@@ -1,0 +1,13 @@
+node_modules/
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+.DS_Store
+.vercel
+npm-debug.log*
+
+# Local-only: internal brief, editor tooling, raw font sources used by scripts/og.mjs
+CLAUDE.md
+.claude/
+scripts/fonts/
