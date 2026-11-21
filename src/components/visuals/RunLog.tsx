@@ -67,7 +67,7 @@ export function RunLog({ className = "" }: { className?: string }) {
               </text>
             </g>
           ))}
-          <text x={X0 - 10} y={Y1 - 14} textAnchor="end" className="fill-muted font-mono text-[24px] sm:text-[11px]" letterSpacing="1.5">
+          <text x={X0 - 10} y={Y1 - 14} textAnchor="end" className="hidden fill-muted font-mono text-[11px] sm:inline" letterSpacing="1.5">
             KM
           </text>
 

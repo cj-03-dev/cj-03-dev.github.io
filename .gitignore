@@ -11,3 +11,5 @@ npm-debug.log*
 CLAUDE.md
 .claude/
 scripts/fonts/
+
+screenshots/
