@@ -1,7 +1,7 @@
 "use client";
 
 import { m, useMotionValueEvent, useReducedMotion, useScroll, useSpring, useTransform } from "motion/react";
-import { useRef, useState } from "react";
+import { useId, useRef, useState } from "react";
 
 const DAYS = 100;
 const W = 1000;
@@ -15,6 +15,10 @@ const BAR_BOTTOM = 412;
 
 const xFor = (d: number) => X0 + ((X1 - X0) * d) / DAYS;
 const yFor = (km: number) => Y0 - ((Y0 - Y1) * km) / 1000;
+
+// All 100 daily bars as one path (cheaper than 100 elements).
+const BAR_W = (X1 - X0) / DAYS - 3;
+const BARS = Array.from({ length: DAYS }, (_, d) => `M${(xFor(d) + 1.5).toFixed(2)} ${BAR_TOP}h${BAR_W.toFixed(2)}v${BAR_BOTTOM - BAR_TOP}h-${BAR_W.toFixed(2)}z`).join("");
 
 // A run log that draws itself as you scroll: 100 days, 10 km a day, 1,000 km.
 export function RunLog({ className = "" }: { className?: string }) {
@@ -33,6 +37,8 @@ export function RunLog({ className = "" }: { className?: string }) {
   const headX = useTransform(progress, (v) => xFor(Math.min(1, Math.max(0, v)) * DAYS));
   const headY = useTransform(progress, (v) => yFor(Math.min(1, Math.max(0, v)) * 1000));
   const areaClip = useTransform(progress, (v) => `inset(0 ${100 - Math.min(1, Math.max(0, v)) * 100}% 0 0)`);
+  const barsLit = useTransform(progress, (v) => ((X1 - X0) * Math.round(Math.min(1, Math.max(0, v)) * DAYS)) / DAYS);
+  const clipId = `runbars-${useId().replace(/:/g, "")}`;
   const km = day * 10;
 
   return (
@@ -93,23 +99,11 @@ export function RunLog({ className = "" }: { className?: string }) {
           <m.circle cx={headX} cy={headY} r="7" fill="#0E0D0B" stroke="#F2994A" strokeWidth="3" />
 
           {/* daily bars: 100 identical runs */}
-          {Array.from({ length: DAYS }, (_, d) => {
-            const x = xFor(d) + 1.5;
-            const w = (X1 - X0) / DAYS - 3;
-            const on = d < day;
-            return (
-              <rect
-                key={d}
-                x={x}
-                y={BAR_TOP}
-                width={w}
-                height={BAR_BOTTOM - BAR_TOP}
-                rx="1"
-                fill={on ? "#F2994A" : "rgba(237,230,216,0.1)"}
-                style={{ transition: "fill 0.25s ease" }}
-              />
-            );
-          })}
+          <clipPath id={clipId}>
+            <m.rect x={X0} y={BAR_TOP - 2} height={BAR_BOTTOM - BAR_TOP + 4} width={barsLit} />
+          </clipPath>
+          <path d={BARS} fill="rgba(237,230,216,0.1)" />
+          <path d={BARS} fill="#F2994A" clipPath={`url(#${clipId})`} />
           <text x={X0} y={H - 8} className="fill-muted font-mono text-[28px] sm:text-[12px]" letterSpacing="1.5">
             DAY 1
           </text>

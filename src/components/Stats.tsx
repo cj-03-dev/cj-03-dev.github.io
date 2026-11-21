@@ -32,17 +32,19 @@ export function Stats() {
 }
 
 export function Marquee() {
-  const row = [...marquee, ...marquee];
+  const row = marquee; // one list per copy; two copies make the seamless loop
   return (
     <section aria-label="Worked with or alongside" className="marquee relative overflow-hidden border-y border-line py-8 sm:py-10" data-cursor="Pause">
       <p className="sr-only">Worked with or alongside: {marquee.join(", ")}</p>
       <div className="marquee-track flex w-max items-center" aria-hidden="true">
         {[0, 1].map((copy) => (
-          <div key={copy} className="flex items-center">
+          <div key={copy} className="flex shrink-0 items-center">
             {row.map((name, i) => (
-              <span key={`${copy}-${i}`} className="flex items-center">
-                <span className="display whitespace-nowrap px-6 text-[clamp(2.4rem,6vw,5.5rem)] italic text-paper/85 sm:px-10">{name}</span>
-                <span className="font-mono text-sm text-apricot">/</span>
+              <span
+                key={`${copy}-${i}`}
+                className="display whitespace-nowrap px-6 text-[clamp(2.4rem,6vw,5.5rem)] italic text-paper/85 after:ml-12 after:font-mono after:text-sm after:not-italic after:text-apricot after:content-['/'] sm:px-10 sm:after:ml-20"
+              >
+                {name}
               </span>
             ))}
           </div>

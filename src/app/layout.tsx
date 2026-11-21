@@ -24,7 +24,6 @@ const jetbrains = JetBrains_Mono({
   weight: "500",
   variable: "--font-jetbrains",
   display: "swap",
-  preload: false,
 });
 
 const general = localFont({
