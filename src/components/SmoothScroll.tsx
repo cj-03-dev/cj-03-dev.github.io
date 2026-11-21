@@ -15,6 +15,8 @@ export function SmoothScroll() {
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // Touch devices already scroll natively and smoothly; Lenis would only add a per-frame loop.
+    if (window.matchMedia("(pointer: coarse)").matches) return;
     let lenis: Lenis | undefined;
     let raf = 0;
     // Start after the page has settled so it doesn't compete with first load.

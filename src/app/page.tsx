@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Hero } from "@/components/Hero";
 import { Stats, Marquee } from "@/components/Stats";
 import { ProjectFile } from "@/components/ProjectFile";
@@ -30,17 +31,26 @@ export default function Home() {
               </p>
             </Reveal>
           </div>
+          {/* Separate Suspense boundaries let React hydrate each block in its own task. */}
           {projects.map((p, i) => (
-            <ProjectFile key={p.slug} p={p} index={i} />
+            <Suspense key={p.slug}>
+              <ProjectFile p={p} index={i} />
+            </Suspense>
           ))}
           <Also />
         </section>
 
-        <About />
-        <Experience />
+        <Suspense>
+          <About />
+        </Suspense>
+        <Suspense>
+          <Experience />
+        </Suspense>
         <Now />
       </main>
-      <Contact />
+      <Suspense>
+        <Contact />
+      </Suspense>
     </>
   );
 }
