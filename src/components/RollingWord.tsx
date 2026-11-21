@@ -33,15 +33,16 @@ export function RollingWord({ words, startDelay = 2600, interval = 2400 }: { wor
         {longest}
       </span>
       <span className="sr-only">{words[0]}</span>
-      <AnimatePresence initial={false}>
+      {/* Sequential: old word rolls up and out, then the new one rises in, so they never overlap neighbouring lines. */}
+      <AnimatePresence initial={false} mode="wait">
         <m.span
           key={words[i]}
           aria-hidden="true"
           className="col-start-1 row-start-1 whitespace-nowrap text-apricot italic"
-          initial={reduce ? { opacity: 0 } : { y: "105%", opacity: 1 }}
-          animate={reduce ? { opacity: 1 } : { y: "0%", opacity: 1 }}
-          exit={reduce ? { opacity: 0 } : { y: "-105%", opacity: 1 }}
-          transition={{ duration: reduce ? 0.4 : 0.85, ease: [0.76, 0, 0.24, 1] }}
+          initial={reduce ? { opacity: 0 } : { y: "45%", opacity: 0 }}
+          animate={reduce ? { opacity: 1 } : { y: "0%", opacity: 1, transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] } }}
+          exit={reduce ? { opacity: 0 } : { y: "-45%", opacity: 0, transition: { duration: 0.32, ease: [0.7, 0, 0.84, 0] } }}
+          transition={{ duration: 0.4 }}
         >
           {words[i]}
         </m.span>
