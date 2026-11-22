@@ -8,6 +8,7 @@ import { SmoothScroll } from "@/components/SmoothScroll";
 import { Nav } from "@/components/Nav";
 import { MotionProvider } from "@/components/MotionProvider";
 import { RevealObserver } from "@/components/RevealObserver";
+import { IntroMark } from "@/components/IntroMark";
 
 const instrument = Instrument_Serif({
   subsets: ["latin"],
@@ -85,8 +86,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           Skip to content
         </a>
-        {/* Loading screen (pure CSS, about 1.4s): glowing rings pulse out, three words rise in,
-            a meter counts to 100, then the screen splits open along a glowing seam. */}
+        {/* Loading screen (pure CSS, about 1.4s, no text): contour rings draw in with a glowing
+            core and an orbiting light, ripples pulse out, a meter fills, then the screen splits open. */}
         <div className="intro" aria-hidden="true">
           <div className="intro-panel intro-panel-top" />
           <div className="intro-panel intro-panel-bottom" />
@@ -97,21 +98,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <span />
           </div>
           <div className="intro-content">
-            <p className="intro-name display">
-              {["Operations.", "Partnerships.", "Growth."].map((w, i) => (
-                <span key={w} className="intro-char">
-                  <span style={{ ["--c" as string]: i }} className={i === 2 ? "italic text-apricot" : undefined}>
-                    {w}
-                  </span>
-                </span>
-              ))}
-            </p>
+            <IntroMark />
             <div className="intro-meter">
               <span className="intro-bar" />
-            </div>
-            <div className="intro-meta">
-              <span>Loading</span>
-              <span className="intro-num" />
             </div>
           </div>
         </div>

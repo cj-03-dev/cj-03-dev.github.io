@@ -156,8 +156,8 @@ export const projects: Project[] = [
     org: "Media",
     year: "2025",
     oneLiner: "A global community for serious phone photography and film.",
-    image: "/images/public-phone.jpg",
-    imageAlt: "City lights across the curve of the Earth at night",
+    image: "/images/phones.jpg",
+    imageAlt: "Several smartphones laid out on a table",
     visual: "globe",
     brief: "A place for creators without cameras to be judged on the work, not the gear.",
     did: [

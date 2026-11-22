@@ -5,7 +5,7 @@ export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://example.git
 
 // Images live in /public/images as <name>.webp (1600w) and <name>-800.webp (800w).
 // Pass "/images/<name>" (any extension is ignored).
-const NO_SMALL = new Set(["headshot", "avatar"]);
+const NO_SMALL = new Set(["headshot", "avatar", "phones-art"]);
 export function img(path: string) {
   const base = path.replace(/\.(jpe?g|png|webp)$/i, "");
   const name = base.split("/").pop() || "";
