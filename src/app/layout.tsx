@@ -1,10 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Instrument_Serif, JetBrains_Mono } from "next/font/google";
+import { Instrument_Serif, JetBrains_Mono, Mr_Dafoe } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import { site } from "@/content/site";
 import { asset, SITE_URL } from "@/lib/asset";
-import { Monogram } from "@/components/Monogram";
+import { ViceLogo } from "@/components/ViceLogo";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { Nav } from "@/components/Nav";
 import { MotionProvider } from "@/components/MotionProvider";
@@ -16,6 +16,14 @@ const instrument = Instrument_Serif({
   style: ["normal", "italic"],
   variable: "--font-instrument",
   display: "swap",
+});
+
+// 80s script for the CJ logo. "block" so the loading screen never flashes a fallback font.
+const vice = Mr_Dafoe({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-vice",
+  display: "block",
 });
 
 const jetbrains = JetBrains_Mono({
@@ -44,7 +52,7 @@ export const metadata: Metadata = {
     url: "/",
     siteName: site.name,
     type: "website",
-    images: [{ url: asset("/og.png"), width: 1200, height: 630, alt: "Chirag Joshi. I raise the funding. I run the team. I file the report." }],
+    images: [{ url: asset("/og.png"), width: 1200, height: 630, alt: "Chirag Joshi. I run the team." }],
   },
   twitter: {
     card: "summary_large_image",
@@ -53,7 +61,10 @@ export const metadata: Metadata = {
     images: [asset("/og.png")],
   },
   icons: {
-    icon: [{ url: asset("/favicon.svg"), type: "image/svg+xml" }, { url: asset("/favicon-32.png"), sizes: "32x32", type: "image/png" }],
+    icon: [
+      { url: asset("/favicon-64.png"), sizes: "64x64", type: "image/png" },
+      { url: asset("/favicon-32.png"), sizes: "32x32", type: "image/png" },
+    ],
     apple: asset("/apple-touch-icon.png"),
   },
 };
@@ -70,7 +81,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${instrument.variable} ${jetbrains.variable} ${general.variable}`}
+      className={`${instrument.variable} ${jetbrains.variable} ${general.variable} ${vice.variable}`}
       suppressHydrationWarning
     >
       <head>
@@ -83,8 +94,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           Skip to content
         </a>
+        {/* Loading screen: 80s Miami sunset, CJ pops up, then the curtain lifts */}
         <div className="intro" aria-hidden="true">
-          <Monogram className="h-20 w-20 text-paper sm:h-24 sm:w-24" strokeWidth={2.4} />
+          <div className="intro-stage">
+            <span className="vice-sun" />
+            <span className="vice-horizon" />
+            <ViceLogo className="intro-cj text-[clamp(7rem,30vw,15rem)]" />
+            <span className="intro-name">Chirag Joshi</span>
+          </div>
         </div>
         <MotionProvider>
           <SmoothScroll />

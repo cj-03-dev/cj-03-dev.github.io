@@ -7,7 +7,7 @@ export function Stats() {
   return (
     <section aria-label="Key numbers" className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12">
       <div className="flex items-center justify-between border-t border-line py-4">
-        <p className="label">Field summary</p>
+        <p className="label">In numbers</p>
         <p className="label">2023 to 2026</p>
       </div>
       <div className="grid grid-cols-2 gap-px border-y border-line bg-line lg:grid-cols-4">

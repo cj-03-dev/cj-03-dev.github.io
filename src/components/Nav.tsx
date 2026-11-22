@@ -2,20 +2,26 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
-import { Monogram } from "./Monogram";
-import { site } from "@/content/site";
+import { usePathname, useRouter } from "next/navigation";
+import { ViceLogo } from "./ViceLogo";
 
 const links = [
   { label: "Work", href: "/#work" },
   { label: "About", href: "/#about" },
   { label: "Now", href: "/#now" },
-  { label: "Contact", href: "/#contact" },
 ];
+
+// Contact lives in the footer, so scroll all the way to the bottom of the page.
+function scrollToBottom() {
+  const bottom = document.documentElement.scrollHeight;
+  if (window.__lenis) window.__lenis.scrollTo(bottom, { duration: 1.4 });
+  else window.scrollTo({ top: bottom, behavior: "smooth" });
+}
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -34,8 +40,8 @@ export function Nav() {
       style={{ ["--d" as string]: "0.1s" }}
     >
       <nav aria-label="Main" className="mx-auto flex h-16 max-w-[1440px] items-center justify-between px-5 sm:px-8 lg:px-12">
-        <Link href="/" aria-label="Chirag Joshi, home" className="-ml-2 flex items-center gap-2 p-2 text-paper">
-          <Monogram className="h-9 w-9" strokeWidth={3.2} />
+        <Link href="/" aria-label="Chirag Joshi, home" className="-ml-1 flex items-center p-1">
+          <ViceLogo className="text-[2.3rem]" />
         </Link>
         <div className="flex items-center gap-1 sm:gap-2">
           <ul className="hidden items-center md:flex">
@@ -51,11 +57,15 @@ export function Nav() {
             ))}
           </ul>
           <a
-            href={`mailto:${site.email}`}
-           
+            href="#contact"
+            onClick={(e) => {
+              e.preventDefault();
+              if (home || document.getElementById("contact")) scrollToBottom();
+              else router.push("/#contact");
+            }}
             className="ml-2 inline-flex h-9 items-center rounded-full bg-apricot px-4 font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-ink transition-transform duration-300 hover:-translate-y-0.5"
           >
-            Email me
+            Contact
           </a>
         </div>
       </nav>

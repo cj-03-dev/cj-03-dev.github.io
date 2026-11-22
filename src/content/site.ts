@@ -16,8 +16,8 @@ export const site = {
 export const hero = {
   label: ["Chirag Joshi", "Operator", "India"],
   // Line 2 ends with a rolling word. The first entry is shown first.
-  lines: ["I raise the funding.", "I run the", "I file the report."],
-  rolling: ["team.", "project.", "growth.", "GTM."],
+  line: "I run the",
+  rolling: ["team.", "project.", "growth.", "GTM.", "funding."],
   subline:
     "Operations, partnerships and growth. Former founder. I've secured conference funding from NATO, built a photography community across 90+ countries, and ran 1,000 km in 100 days to raise money for flood relief.",
   status: "Open to ops, growth and Founder's Office roles",
@@ -317,11 +317,17 @@ export const about = {
   body: "I'm Chirag. I studied Political Science at Jadavpur University and I'm doing MIT's MicroMasters in Data, Economics and Design of Policy. I founded and ran Visual Merge, a phone-photography community and nonprofit, worked as a business consultant at Universal Hunt, and lead grants and engagements at The Geostrata, India's largest youth think tank.",
   close:
     "I like work where someone has to find the money, line up the people and make sure it actually happens. Long term, I want to build in human longevity.",
+  // About card. title = main line, lines = smaller lines under it, badge = highlighted figure.
   facts: [
-    { k: "Based in", v: "India" },
-    { k: "Degree", num: "8.6", v: "GPA, BA (Hons) Political Science, Jadavpur University, 2024" },
-    { k: "Studying", v: "MIT MicroMasters, Data, Economics and Design of Policy" },
-  ] as { k: string; v: string; num?: string }[],
+    { k: "Based in", title: "India" },
+    { k: "Degree", title: "BA (Hons) Political Science", lines: ["Jadavpur University, 2024"], badge: "8.6 GPA" },
+    {
+      k: "MicroMasters",
+      title: "Data, Economics and Design of Policy",
+      lines: ["Massachusetts Institute of Technology", "Registered, expected 2027"],
+    },
+    { k: "Diploma", title: "Media Literacy", lines: ["U.S. Department of State, 2023"] },
+  ] as { k: string; title: string; lines?: string[]; badge?: string }[],
   skills: [
     "Partnerships",
     "Fundraising",
@@ -370,14 +376,20 @@ export const timeline: TimelineItem[] = [
     when: "2024",
     detail: "Equity & Diversity Officer, Debating Society.",
   },
-  { org: "MIT DEDP MicroMasters", role: "Data, Economics and Design of Policy", when: "In progress" },
+  {
+    org: "MIT MicroMasters",
+    role: "Data, Economics and Design of Policy",
+    when: "Expected 2027",
+    detail: "Massachusetts Institute of Technology. Registered.",
+  },
+  { org: "U.S. Department of State", role: "Diploma in Media Literacy", when: "2023" },
 ];
 
 export const now = {
   updated: "Updated Nov 2026",
   items: [
     "Looking for an ops, growth or Founder's Office role.",
-    "Building Stonefruit.",
-    "Preparing for the GMAT.",
+    "Building AI workflow projects and longevity tools.",
+    "Studying for the GMAT.",
   ],
 };

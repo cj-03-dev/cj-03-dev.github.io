@@ -18,16 +18,16 @@ export default function Home() {
         </div>
 
         <section id="work" className="mx-auto max-w-[1440px] scroll-mt-16 px-5 pt-24 sm:px-8 sm:pt-32 lg:px-12">
-          <SectionHead num="01" title="Selected files" aside={`${String(projects.length).padStart(2, "0")} files`} />
+          <SectionHead num="01" title="Work" aside={`${String(projects.length).padStart(2, "0")} projects`} />
           <div className="mb-16 mt-8 grid gap-6 sm:mb-24 lg:mt-14 lg:grid-cols-12">
             <Reveal className="lg:col-span-8">
               <h2 className="display text-[clamp(3rem,8vw,7.5rem)] text-paper">
-                Filed from the <em className="italic text-apricot">field</em>.
+                Selected <em className="italic text-apricot">projects</em>
               </h2>
             </Reveal>
             <Reveal delay={0.1} className="lg:col-span-4 lg:self-end">
               <p className="max-w-[36ch] text-paper/70">
-                Conferences funded, a campaign run, a community built, a product in progress. Each file opens to the brief, what I did and the result.
+                Conferences funded, a campaign run, a community built, a product in progress. Each project opens to the brief, what I did and the result.
               </p>
             </Reveal>
           </div>

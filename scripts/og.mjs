@@ -10,22 +10,33 @@ const fonts = [
   { name: "Instrument Serif", data: await font("InstrumentSerif-Italic.ttf"), style: "italic", weight: 400 },
   { name: "General Sans", data: await font("GeneralSans-400.ttf"), style: "normal", weight: 400 },
   { name: "JetBrains Mono", data: await font("JetBrainsMono-Medium.ttf"), style: "normal", weight: 500 },
+  { name: "Mr Dafoe", data: await font("MrDafoe-Regular.ttf"), style: "normal", weight: 400 },
 ];
 
 const INK = "#0E0D0B";
 const PAPER = "#EDE6D8";
 const MUTED = "#9A9285";
 const APRICOT = "#F2994A";
+const PINK = "#FF4FB0";
+const CYAN = "#2EE6F5";
 const LINE = "rgba(237,230,216,0.16)";
 
-const mark = (size, stroke = PAPER, bg = null) =>
+// Neon "CJ" logo (matches .vice-logo on the site)
+const cj = (size) =>
   h(
-    "svg",
-    { width: size, height: size, viewBox: "0 0 64 64", fill: "none" },
-    bg ? h("rect", { width: 64, height: 64, rx: 14, fill: bg }) : null,
-    h("path", { d: "M32 21.3 A14 14 0 1 0 32 42.7", stroke, strokeWidth: 4.2, strokeLinecap: "round" }),
-    h("path", { d: "M40 18 H51 M46 18 V39 A7 7 0 0 1 32 39", stroke, strokeWidth: 4.2, strokeLinecap: "round", strokeLinejoin: "round" }),
-    h("circle", { cx: 55, cy: 44.5, r: 3.6, fill: APRICOT })
+    "div",
+    {
+      style: {
+        display: "flex",
+        fontFamily: "Mr Dafoe",
+        fontSize: size,
+        lineHeight: 1,
+        color: PINK,
+        transform: "rotate(-7deg)",
+        textShadow: `${size * 0.045}px ${size * 0.045}px 0 ${CYAN}`,
+      },
+    },
+    "CJ"
   );
 
 const mono = { fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 2.5, color: MUTED, textTransform: "uppercase" };
@@ -35,16 +46,15 @@ const og = h(
   { style: { width: 1200, height: 630, display: "flex", flexDirection: "column", background: INK, padding: "52px 64px", fontFamily: "General Sans", color: PAPER } },
   h(
     "div",
-    { style: { display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: `1px solid ${LINE}`, paddingBottom: 22 } },
+    { style: { display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: `1px solid ${LINE}`, paddingBottom: 18 } },
     h("div", { style: { ...mono, display: "flex" } }, "Chirag Joshi ", h("span", { style: { color: APRICOT, margin: "0 12px" } }, "/"), " Operator ", h("span", { style: { color: APRICOT, margin: "0 12px" } }, "/"), " India"),
-    mark(46)
+    cj(64)
   ),
   h(
     "div",
-    { style: { display: "flex", flexDirection: "column", flex: 1, justifyContent: "center", fontFamily: "Instrument Serif", fontSize: 104, lineHeight: 0.95, letterSpacing: -2 } },
-    h("div", { style: { display: "flex" } }, "I raise the funding."),
-    h("div", { style: { display: "flex" } }, "I run the ", h("span", { style: { fontStyle: "italic", color: APRICOT } }, "team.")),
-    h("div", { style: { display: "flex" } }, "I file the report.")
+    { style: { display: "flex", flex: 1, alignItems: "center", fontFamily: "Instrument Serif", fontSize: 168, lineHeight: 1, letterSpacing: -3 } },
+    "I run the ",
+    h("span", { style: { fontStyle: "italic", color: APRICOT } }, "team.")
   ),
   h(
     "div",
@@ -67,6 +77,12 @@ async function render(el, w, hgt, out) {
 }
 
 await render(og, 1200, 630, "og.png");
-const icon = (s) => h("div", { style: { width: s, height: s, display: "flex", background: "transparent" } }, mark(s, PAPER, INK));
+const icon = (s) =>
+  h(
+    "div",
+    { style: { width: s, height: s, display: "flex", alignItems: "center", justifyContent: "center", background: "#1d0b26", borderRadius: s * 0.22 } },
+    cj(s * 0.78)
+  );
 await render(icon(32), 32, 32, "favicon-32.png");
+await render(icon(64), 64, 64, "favicon-64.png");
 await render(icon(180), 180, 180, "apple-touch-icon.png");

@@ -85,7 +85,7 @@ export default async function CasePage({ params }: Params) {
           <div className="absolute inset-x-0 top-0 -z-10 h-40 bg-gradient-to-b from-ink/80 to-transparent" aria-hidden="true" />
           <div className="mx-auto w-full max-w-[1440px] px-5 pb-10 sm:px-8 sm:pb-14 lg:px-12">
             <Link href="/#work" className="group label mb-8 inline-flex items-center gap-2 transition-colors hover:text-paper">
-              <span aria-hidden="true" className="transition-transform group-hover:-translate-x-1">←</span> All files
+              <span aria-hidden="true" className="transition-transform group-hover:-translate-x-1">←</span> All projects
             </Link>
             <h1 className="display max-w-[14ch] text-[clamp(3.2rem,10vw,9rem)] text-paper">
               <span className="mask">
@@ -181,10 +181,10 @@ export default async function CasePage({ params }: Params) {
             </Block>
           )}
 
-          {/* Next file */}
+          {/* Next project */}
           <Link href={`/work/${next.slug}/`} className="group mt-10 block border-t border-line py-14 sm:py-20">
             <p className="label">
-              Next file <span className="mx-1.5 text-apricot">/</span> {next.file}
+              Next project <span className="mx-1.5 text-apricot">/</span> {next.file}
             </p>
             <div className="mt-6 flex items-end justify-between gap-6">
               <p className="display text-[clamp(2.8rem,8vw,7.5rem)] text-paper transition-colors duration-500 group-hover:text-apricot">

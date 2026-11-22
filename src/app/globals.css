@@ -20,7 +20,7 @@
 
 :root {
   color-scheme: dark;
-  --intro-delay: 1.15s;
+  --intro-delay: 1.5s;
 }
 html[data-intro="seen"] {
   --intro-delay: 0.05s;
@@ -74,6 +74,24 @@ html.lenis body {
 }
 
 @layer components {
+/* ---------- CJ logo: 80s Miami neon script ---------- */
+.vice-logo {
+  display: inline-block;
+  font-family: var(--font-vice), "Brush Script MT", cursive;
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: 0.01em;
+  padding: 0.04em 0.12em 0.1em 0.04em;
+  color: #ff4fb0;
+  transform: rotate(-7deg);
+  text-shadow: 0.045em 0.045em 0 #2ee6f5;
+}
+.vice-glow {
+  text-shadow:
+    0.045em 0.045em 0 #2ee6f5,
+    0 0 0.18em rgb(255 79 176 / 0.55),
+    0 0 0.5em rgb(255 79 176 / 0.25);
+}
 /* ---------- Type helpers ---------- */
 .label {
   font-family: var(--font-mono);
@@ -183,17 +201,86 @@ html.lenis body {
   z-index: 100;
   display: grid;
   place-items: center;
-  background: var(--color-ink);
-  animation: intro-out 0.55s var(--ease-in-out-quart) 0.85s forwards;
+  overflow: hidden;
+  /* 80s Miami dusk: magenta haze rising off the horizon into ink */
+  background:
+    radial-gradient(120% 70% at 50% 100%, #6b1658 0%, #3a0f4a 38%, #170b1f 68%, var(--color-ink) 100%);
+  animation: intro-out 0.6s var(--ease-in-out-quart) 1.25s forwards;
 }
-.intro path {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  animation: draw 0.8s var(--ease-in-out-quart) 0.05s forwards;
+.intro-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: min(90vw, 640px);
+  aspect-ratio: 1.2;
 }
-.intro .intro-dot {
+/* striped retro sun, rising behind the logo */
+.vice-sun {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(62vw, 400px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  translate: -50% -42%;
+  background: linear-gradient(180deg, #ffe08a 0%, #ffb054 30%, #ff5fa2 62%, #c724b1 100%);
+  -webkit-mask-image:
+    linear-gradient(#000 48%, transparent 48%),
+    repeating-linear-gradient(180deg, transparent 0 3.2%, #000 3.2% 7.6%);
+  mask-image:
+    linear-gradient(#000 48%, transparent 48%),
+    repeating-linear-gradient(180deg, transparent 0 3.2%, #000 3.2% 7.6%);
   opacity: 0;
-  animation: fade-in 0.2s ease 0.7s forwards;
+  animation: sun-rise 0.9s var(--ease-out-expo) 0.05s forwards;
+}
+.vice-horizon {
+  position: absolute;
+  left: -20%;
+  right: -20%;
+  top: calc(50% + min(31vw, 200px) * 0.86);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #2ee6f5 20%, #ff5fa2 50%, #2ee6f5 80%, transparent);
+  box-shadow: 0 0 18px #2ee6f5;
+  transform: scaleX(0);
+  animation: horizon 0.7s var(--ease-out-expo) 0.15s forwards;
+}
+.intro-cj {
+  position: relative;
+  opacity: 0;
+  -webkit-text-stroke: 0.05em #1a0820;
+  paint-order: stroke fill;
+  animation: cj-pop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s forwards, neon 1.6s steps(1) 0.95s;
+}
+.intro-name {
+  position: absolute;
+  top: calc(50% + min(31vw, 200px) * 1.02 + 1.2rem);
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: #2ee6f5;
+  text-shadow: 0 0 10px rgb(46 230 245 / 0.6);
+  opacity: 0;
+  animation: fade-in 0.4s ease 0.75s forwards;
+}
+@keyframes sun-rise {
+  from { opacity: 0; translate: -50% -12%; }
+  to { opacity: 1; translate: -50% -42%; }
+}
+@keyframes horizon {
+  to { transform: scaleX(1); }
+}
+@keyframes cj-pop {
+  0% { opacity: 0; transform: scale(0.25) rotate(-18deg); }
+  60% { opacity: 1; transform: scale(1.14) rotate(-4deg); }
+  100% { opacity: 1; transform: scale(1) rotate(-7deg); }
+}
+@keyframes neon {
+  0%, 100% { filter: none; }
+  8% { filter: brightness(1.6); }
+  12% { filter: brightness(0.6); }
+  16% { filter: brightness(1.4); }
 }
 html[data-intro="seen"] .intro {
   display: none;

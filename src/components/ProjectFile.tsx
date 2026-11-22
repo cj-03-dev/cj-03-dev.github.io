@@ -12,7 +12,7 @@ export function FileHeader({ p, className = "" }: { p: Project; className?: stri
   return (
     <div className={`flex items-center justify-between gap-4 border-t border-line py-4 ${className}`}>
       <p className="label">
-        <span className="text-paper">File {p.file}</span>
+        <span className="text-paper">Project {p.file}</span>
         <span className="mx-2 text-apricot">/</span>
         {p.type}
         <span className="mx-2 text-apricot">/</span>
@@ -47,14 +47,14 @@ export function Figures({ items, className = "" }: { items: Project["figures"]; 
 function OpenLabel() {
   return (
     <span className="pointer-events-none absolute bottom-0 left-0 z-[3] flex translate-y-[105%] items-center gap-2 bg-apricot px-4 py-2.5 font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-ink transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0 group-focus-visible:translate-y-0">
-      Open file <span aria-hidden="true">→</span>
+      Open project <span aria-hidden="true">→</span>
     </span>
   );
 }
 
 function ImageLink({ p, aspect = "aspect-[4/3]" }: { p: Project; aspect?: string }) {
   return (
-    <Link href={`/work/${p.slug}/`} className="group block" aria-label={`Open file: ${p.title}`}>
+    <Link href={`/work/${p.slug}/`} className="group block" aria-label={`Open project: ${p.title}`}>
       <ParallaxImage src={p.image} alt={p.imageAlt} className={aspect}>
         <OpenLabel />
       </ParallaxImage>
@@ -142,7 +142,7 @@ export function ProjectFile({ p, index }: { p: Project; index: number }) {
              
               className="group inline-flex items-center gap-3 font-mono text-xs uppercase tracking-[0.16em] text-apricot"
             >
-              <span className="uline pb-1">Open file {p.file}</span>
+              <span className="uline pb-1">Open project</span>
               <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">
                 →
               </span>

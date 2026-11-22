@@ -18,13 +18,11 @@ function Words({ text, start }: { text: string; start: number }) {
 }
 
 export function Hero() {
-  const [l1, l2, l3] = hero.lines;
-  const n1 = l1.split(" ").length;
-  const n2 = l2.split(" ").length;
+  const n = hero.line.split(" ").length;
 
   return (
     <section id="top" className="relative isolate flex min-h-[100svh] flex-col overflow-hidden pt-16">
-      {/* Topographic line art: a survey map of "the field", drawn in after the intro */}
+      {/* Topographic line art, drawn in after the intro */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 -z-10 opacity-45 md:left-[30%] md:opacity-100"
@@ -37,7 +35,7 @@ export function Hero() {
       </div>
 
       <div className="mx-auto flex w-full max-w-[1440px] flex-1 flex-col px-5 sm:px-8 lg:px-12">
-        <div className="after-intro flex items-center justify-between border-b border-line py-4" style={{ ["--d" as string]: "-0.2s" }}>
+        <div className="after-intro flex items-center border-b border-line py-4" style={{ ["--d" as string]: "-0.2s" }}>
           <p className="label">
             {hero.label.map((s, i) => (
               <span key={s}>
@@ -46,26 +44,15 @@ export function Hero() {
               </span>
             ))}
           </p>
-          <p className="label hidden sm:block">
-            Field report <span className="mx-2 text-apricot">/</span> 2026
-          </p>
         </div>
 
         <div className="flex flex-1 flex-col justify-center py-10 sm:py-14">
-          <h1 className="display text-[clamp(2.6rem,11.6vw,9.6rem)] text-paper">
-            <span className="block">
-              <Words text={l1} start={0} />
-            </span>
-            <span className="block">
-              <Words text={l2} start={n1} />
-              <span className="mask mask-roll">
-                <span className="rise" style={{ ["--i" as string]: n1 + n2 }}>
-                  <RollingWord words={hero.rolling} />
-                </span>
+          <h1 className="display text-[clamp(3rem,12.5vw,10.5rem)] text-paper">
+            <Words text={hero.line} start={0} />
+            <span className="mask mask-roll">
+              <span className="rise" style={{ ["--i" as string]: n }}>
+                <RollingWord words={hero.rolling} />
               </span>
-            </span>
-            <span className="block">
-              <Words text={l3} start={n1 + n2 + 1} />
             </span>
           </h1>
 

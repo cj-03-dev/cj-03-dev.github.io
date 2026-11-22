@@ -24,7 +24,7 @@ export function Also() {
         <p className="label">
           <span className="text-paper">Also</span>
           <span className="mx-2 text-apricot">/</span>
-          Smaller files
+          Smaller projects
         </p>
       </div>
       <ul className="mt-4 grid gap-6 md:grid-cols-2">
@@ -49,7 +49,7 @@ export function About() {
   const [first, ...rest] = about.body.split(". ");
   return (
     <section id="about" className="mx-auto max-w-[1440px] scroll-mt-16 px-5 pb-24 sm:px-8 sm:pb-32 lg:px-12">
-      <SectionHead num="02" title="About" aside="Field operator" />
+      <SectionHead num="02" title="About" />
       <div className="mt-8 grid gap-10 lg:mt-14 lg:grid-cols-12 lg:gap-12">
         {/* Dossier card: small portrait plus key facts */}
         <Reveal className="lg:col-span-4">
@@ -67,15 +67,19 @@ export function About() {
                     style={{ transform: "scale(1.7)", transformOrigin: "78% 60%" }}
                   />
                 </div>
-                <figcaption className="label mt-2 text-[10px]">Fig. 01</figcaption>
               </figure>
-              <dl className="grid flex-1 content-start gap-3 text-sm">
+              <dl className="grid flex-1 content-start gap-3.5 text-sm">
                 {about.facts.map((f) => (
-                  <div key={f.k} className="border-b border-line pb-2.5 last:border-0 last:pb-0">
+                  <div key={f.k} className="border-b border-line pb-3 last:border-0 last:pb-0">
                     <dt className="label text-[10px]">{f.k}</dt>
-                    <dd className="mt-1 leading-snug text-paper">
-                      {f.num && <span className="mr-1.5 font-mono text-apricot">{f.num}</span>}
-                      {f.v}
+                    <dd className="mt-1.5">
+                      <span className="block leading-snug text-paper">{f.title}</span>
+                      {f.lines?.map((l) => (
+                        <span key={l} className="mt-0.5 block text-[13px] leading-snug text-muted">
+                          {l}
+                        </span>
+                      ))}
+                      {f.badge && <span className="mt-1.5 inline-block font-mono text-[13px] text-apricot">{f.badge}</span>}
                     </dd>
                   </div>
                 ))}
@@ -120,9 +124,7 @@ export function Experience() {
       <SectionHead num="03" title="Experience" aside="Most recent first" />
       <div className="mt-8 grid gap-10 lg:mt-14 lg:grid-cols-12">
         <Reveal className="lg:col-span-4">
-          <h2 className="display text-[clamp(2.8rem,6vw,5rem)] text-paper">
-            The <em className="italic text-apricot">record</em>.
-          </h2>
+          <h2 className="display text-[clamp(2.8rem,6vw,5rem)] text-paper">Timeline</h2>
         </Reveal>
         <div className="lg:col-span-8">
           <TimelineRail items={timeline} />
@@ -137,12 +139,8 @@ export function Now() {
     <section id="now" className="mx-auto max-w-[1440px] scroll-mt-16 px-5 pb-24 sm:px-8 sm:pb-32 lg:px-12">
       <SectionHead num="04" title="Now" aside={now.updated} />
       <div className="mt-8 grid gap-10 lg:mt-14 lg:grid-cols-12">
-        <Reveal className="flex items-start gap-6 lg:col-span-4">
-          <div className="relative h-24 w-24 shrink-0 rotate-[-6deg] rounded-full bg-apricot sm:h-28 sm:w-28">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img {...img("/images/avatar")} alt="Illustrated portrait of Chirag" loading="lazy" className="h-full w-full scale-110 object-contain" />
-          </div>
-          <h2 className="display text-[clamp(2.8rem,6vw,5rem)] text-paper">Now.</h2>
+        <Reveal className="lg:col-span-4">
+          <h2 className="display text-[clamp(2.8rem,6vw,5rem)] text-paper">Now</h2>
         </Reveal>
         <ul className="lg:col-span-8">
           {now.items.map((t, i) => (
