@@ -1,10 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import { Instrument_Serif, JetBrains_Mono, Mr_Dafoe } from "next/font/google";
+import { Instrument_Serif, JetBrains_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import { site } from "@/content/site";
 import { asset, SITE_URL } from "@/lib/asset";
-import { ViceLogo } from "@/components/ViceLogo";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { Nav } from "@/components/Nav";
 import { MotionProvider } from "@/components/MotionProvider";
@@ -16,14 +15,6 @@ const instrument = Instrument_Serif({
   style: ["normal", "italic"],
   variable: "--font-instrument",
   display: "swap",
-});
-
-// 80s script for the CJ logo. "block" so the loading screen never flashes a fallback font.
-const vice = Mr_Dafoe({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--font-vice",
-  display: "block",
 });
 
 const jetbrains = JetBrains_Mono({
@@ -81,7 +72,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${instrument.variable} ${jetbrains.variable} ${general.variable} ${vice.variable}`}
+      className={`${instrument.variable} ${jetbrains.variable} ${general.variable}`}
       suppressHydrationWarning
     >
       <head>
@@ -94,13 +85,32 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           Skip to content
         </a>
-        {/* Loading screen: 80s Miami sunset, CJ pops up, then the curtain lifts */}
+        {/* Loading screen (pure CSS): glowing rings pulse out, the name rises letter by letter,
+            a meter counts to 100, then the screen splits open along a glowing seam. */}
         <div className="intro" aria-hidden="true">
-          <div className="intro-stage">
-            <span className="vice-sun" />
-            <span className="vice-horizon" />
-            <ViceLogo className="intro-cj text-[clamp(7rem,30vw,15rem)]" />
-            <span className="intro-name">Chirag Joshi</span>
+          <div className="intro-panel intro-panel-top" />
+          <div className="intro-panel intro-panel-bottom" />
+          <div className="intro-rings">
+            <span />
+            <span />
+            <span />
+            <span />
+          </div>
+          <div className="intro-content">
+            <p className="intro-name display">
+              {"Chirag Joshi".split("").map((ch, i) => (
+                <span key={i} className="intro-char">
+                  <span style={{ ["--c" as string]: i }}>{ch === " " ? " " : ch}</span>
+                </span>
+              ))}
+            </p>
+            <div className="intro-meter">
+              <span className="intro-bar" />
+            </div>
+            <div className="intro-meta">
+              <span>Operations · Partnerships · Growth</span>
+              <span className="intro-num" />
+            </div>
           </div>
         </div>
         <MotionProvider>

@@ -10,35 +10,24 @@ const fonts = [
   { name: "Instrument Serif", data: await font("InstrumentSerif-Italic.ttf"), style: "italic", weight: 400 },
   { name: "General Sans", data: await font("GeneralSans-400.ttf"), style: "normal", weight: 400 },
   { name: "JetBrains Mono", data: await font("JetBrainsMono-Medium.ttf"), style: "normal", weight: 500 },
-  { name: "Mr Dafoe", data: await font("MrDafoe-Regular.ttf"), style: "normal", weight: 400 },
 ];
 
 const INK = "#0E0D0B";
 const PAPER = "#EDE6D8";
 const MUTED = "#9A9285";
 const APRICOT = "#F2994A";
-const PINK = "#FF4FB0";
-const CYAN = "#2EE6F5";
 const LINE = "rgba(237,230,216,0.16)";
 
-// Neon "CJ" logo (matches .vice-logo on the site)
-const cj = (size) =>
+// Mark: concentric contour rings (echoes the hero map). No initials.
+const rings = (size, bg = null) =>
   h(
-    "div",
-    {
-      style: {
-        display: "flex",
-        fontFamily: "Mr Dafoe",
-        fontSize: size,
-        lineHeight: 1,
-        color: PINK,
-        transform: "rotate(-7deg)",
-        textShadow: `${size * 0.045}px ${size * 0.045}px 0 ${CYAN}`,
-      },
-    },
-    "CJ"
+    "svg",
+    { width: size, height: size, viewBox: "0 0 64 64", fill: "none" },
+    bg ? h("rect", { width: 64, height: 64, rx: 14, fill: bg }) : null,
+    h("ellipse", { cx: 32, cy: 32, rx: 24, ry: 17, stroke: PAPER, strokeOpacity: 0.35, strokeWidth: 2 }),
+    h("ellipse", { cx: 32, cy: 32, rx: 16, ry: 11, stroke: APRICOT, strokeWidth: 3 }),
+    h("circle", { cx: 32, cy: 32, r: 4.5, fill: APRICOT })
   );
-
 const mono = { fontFamily: "JetBrains Mono", fontSize: 18, letterSpacing: 2.5, color: MUTED, textTransform: "uppercase" };
 
 const og = h(
@@ -48,7 +37,7 @@ const og = h(
     "div",
     { style: { display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: `1px solid ${LINE}`, paddingBottom: 18 } },
     h("div", { style: { ...mono, display: "flex" } }, "Chirag Joshi ", h("span", { style: { color: APRICOT, margin: "0 12px" } }, "/"), " Operator ", h("span", { style: { color: APRICOT, margin: "0 12px" } }, "/"), " India"),
-    cj(64)
+    rings(52)
   ),
   h(
     "div",
@@ -77,12 +66,7 @@ async function render(el, w, hgt, out) {
 }
 
 await render(og, 1200, 630, "og.png");
-const icon = (s) =>
-  h(
-    "div",
-    { style: { width: s, height: s, display: "flex", alignItems: "center", justifyContent: "center", background: "#1d0b26", borderRadius: s * 0.22 } },
-    cj(s * 0.78)
-  );
+const icon = (s) => h("div", { style: { width: s, height: s, display: "flex" } }, rings(s, INK));
 await render(icon(32), 32, 32, "favicon-32.png");
 await render(icon(64), 64, 64, "favicon-64.png");
 await render(icon(180), 180, 180, "apple-touch-icon.png");

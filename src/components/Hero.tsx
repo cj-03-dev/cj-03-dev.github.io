@@ -1,6 +1,6 @@
-import { hero, site } from "@/content/site";
+import { hero } from "@/content/site";
 import { RollingWord } from "./RollingWord";
-import { Contours } from "./visuals/Contours";
+import { ContourField } from "./visuals/ContourField";
 
 function Words({ text, start }: { text: string; start: number }) {
   return (
@@ -22,16 +22,16 @@ export function Hero() {
 
   return (
     <section id="top" className="relative isolate flex min-h-[100svh] flex-col overflow-hidden pt-16">
-      {/* Topographic line art, drawn in after the intro */}
+      {/* Living topographic map: lines slowly breathe and drift, light pulses travel along them */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 opacity-45 md:left-[30%] md:opacity-100"
+        className="pointer-events-none absolute inset-0 -z-10 opacity-55 md:left-[28%] md:opacity-100"
         style={{
           maskImage: "linear-gradient(to left, black 40%, transparent 98%)",
           WebkitMaskImage: "linear-gradient(to left, black 40%, transparent 98%)",
         }}
       >
-        <Contours className="h-full w-full" />
+        <ContourField className="h-full w-full" />
       </div>
 
       <div className="mx-auto flex w-full max-w-[1440px] flex-1 flex-col px-5 sm:px-8 lg:px-12">
@@ -66,19 +66,8 @@ export function Hero() {
             <div className="after-intro flex flex-col gap-5 md:col-span-6 md:items-end lg:col-span-7" style={{ ["--d" as string]: "0.12s" }}>
               <div className="flex flex-wrap gap-3">
                 <a
-                  href={`mailto:${site.email}`}
-                 
-                  className="group inline-flex h-12 items-center gap-3 rounded-full bg-apricot px-6 font-medium text-ink transition-transform duration-300 hover:-translate-y-0.5"
-                >
-                  Email me
-                  <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">
-                    →
-                  </span>
-                </a>
-                <a
                   href="#work"
-                 
-                  className="group inline-flex h-12 items-center gap-3 rounded-full border border-line px-6 font-medium text-paper transition-colors duration-300 hover:border-paper/50"
+                  className="group inline-flex h-12 items-center gap-3 rounded-full bg-apricot px-6 font-medium text-ink transition-transform duration-300 hover:-translate-y-0.5"
                 >
                   See the work
                   <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-y-0.5">

@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { ViceLogo } from "./ViceLogo";
 
 const links = [
   { label: "Work", href: "/#work" },
@@ -40,8 +39,11 @@ export function Nav() {
       style={{ ["--d" as string]: "0.1s" }}
     >
       <nav aria-label="Main" className="mx-auto flex h-16 max-w-[1440px] items-center justify-between px-5 sm:px-8 lg:px-12">
-        <Link href="/" aria-label="Chirag Joshi, home" className="-ml-1 flex items-center p-1">
-          <ViceLogo className="text-[2.3rem]" />
+        <Link href="/" aria-label="Chirag Joshi, home" className="group flex items-baseline gap-2 py-2">
+          <span className="display text-[1.55rem] leading-none text-paper transition-colors duration-300 group-hover:text-apricot">
+            Chirag Joshi
+          </span>
+          <span className="h-1.5 w-1.5 translate-y-[-0.1rem] rounded-full bg-apricot" aria-hidden="true" />
         </Link>
         <div className="flex items-center gap-1 sm:gap-2">
           <ul className="hidden items-center md:flex">

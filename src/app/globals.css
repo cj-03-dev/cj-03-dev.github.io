@@ -20,7 +20,7 @@
 
 :root {
   color-scheme: dark;
-  --intro-delay: 1.5s;
+  --intro-delay: 1.35s;
 }
 html[data-intro="seen"] {
   --intro-delay: 0.05s;
@@ -74,24 +74,6 @@ html.lenis body {
 }
 
 @layer components {
-/* ---------- CJ logo: 80s Miami neon script ---------- */
-.vice-logo {
-  display: inline-block;
-  font-family: var(--font-vice), "Brush Script MT", cursive;
-  font-weight: 400;
-  line-height: 0.9;
-  letter-spacing: 0.01em;
-  padding: 0.04em 0.12em 0.1em 0.04em;
-  color: #ff4fb0;
-  transform: rotate(-7deg);
-  text-shadow: 0.045em 0.045em 0 #2ee6f5;
-}
-.vice-glow {
-  text-shadow:
-    0.045em 0.045em 0 #2ee6f5,
-    0 0 0.18em rgb(255 79 176 / 0.55),
-    0 0 0.5em rgb(255 79 176 / 0.25);
-}
 /* ---------- Type helpers ---------- */
 .label {
   font-family: var(--font-mono);
@@ -177,8 +159,8 @@ html.lenis body {
 
 /* Rolling italic word: extra room for slanted overhangs and deep descenders (g, p, j). */
 .mask-roll {
-  padding: 0 0.25em 0.32em 0.06em;
-  margin: 0 -0.25em -0.32em -0.06em;
+  padding: 0.14em 0.25em 0.34em 0.22em;
+  margin: -0.14em -0.25em -0.34em -0.22em;
 }
 
 .uline {
@@ -195,6 +177,11 @@ html.lenis body {
 }
 
 /* ---------- Intro (pure CSS so it never blocks on JS) ---------- */
+@property --pct {
+  syntax: "<integer>";
+  inherits: false;
+  initial-value: 0;
+}
 .intro {
   position: fixed;
   inset: 0;
@@ -202,108 +189,138 @@ html.lenis body {
   display: grid;
   place-items: center;
   overflow: hidden;
-  /* 80s Miami dusk: magenta haze rising off the horizon into ink */
-  background:
-    radial-gradient(120% 70% at 50% 100%, #6b1658 0%, #3a0f4a 38%, #170b1f 68%, var(--color-ink) 100%);
-  animation: intro-out 0.6s var(--ease-in-out-quart) 1.25s forwards;
+  animation: intro-gone 0s linear 2.05s forwards;
 }
-.intro-stage {
-  position: relative;
+.intro-panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 50.5%;
+  background: var(--color-ink);
+  animation: 0.85s var(--ease-in-out-quart) 1.2s forwards;
+}
+.intro-panel-top {
+  top: 0;
+  animation-name: panel-up;
+}
+.intro-panel-bottom {
+  bottom: 0;
+  animation-name: panel-down;
+}
+/* glowing seam where the screen splits */
+.intro-panel-top::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-apricot) 30%, #ffd2a6 50%, var(--color-apricot) 70%, transparent);
+  box-shadow: 0 0 24px 2px rgb(242 153 74 / 0.55);
+  opacity: 0;
+  animation: fade-in 0.25s ease 1.05s forwards;
+}
+/* concentric rings pulsing out from the centre, like contour lines */
+.intro-rings {
+  position: absolute;
+  inset: 0;
   display: grid;
   place-items: center;
-  width: min(90vw, 640px);
-  aspect-ratio: 1.2;
+  animation: fade-out 0.35s ease 1.05s forwards;
 }
-/* striped retro sun, rising behind the logo */
-.vice-sun {
+.intro-rings span {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  width: min(62vw, 400px);
-  aspect-ratio: 1;
+  width: 46vmin;
+  aspect-ratio: 1.5;
   border-radius: 50%;
-  translate: -50% -42%;
-  background: linear-gradient(180deg, #ffe08a 0%, #ffb054 30%, #ff5fa2 62%, #c724b1 100%);
-  -webkit-mask-image:
-    linear-gradient(#000 48%, transparent 48%),
-    repeating-linear-gradient(180deg, transparent 0 3.2%, #000 3.2% 7.6%);
-  mask-image:
-    linear-gradient(#000 48%, transparent 48%),
-    repeating-linear-gradient(180deg, transparent 0 3.2%, #000 3.2% 7.6%);
+  border: 1px solid rgb(242 153 74 / 0.55);
+  box-shadow: 0 0 22px rgb(242 153 74 / 0.18), inset 0 0 22px rgb(242 153 74 / 0.12);
   opacity: 0;
-  animation: sun-rise 0.9s var(--ease-out-expo) 0.05s forwards;
+  animation: ripple 1.5s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
 }
-.vice-horizon {
-  position: absolute;
-  left: -20%;
-  right: -20%;
-  top: calc(50% + min(31vw, 200px) * 0.86);
-  height: 1px;
-  background: linear-gradient(90deg, transparent, #2ee6f5 20%, #ff5fa2 50%, #2ee6f5 80%, transparent);
-  box-shadow: 0 0 18px #2ee6f5;
-  transform: scaleX(0);
-  animation: horizon 0.7s var(--ease-out-expo) 0.15s forwards;
-}
-.intro-cj {
+.intro-rings span:nth-child(2) { animation-delay: 0.18s; }
+.intro-rings span:nth-child(3) { animation-delay: 0.36s; }
+.intro-rings span:nth-child(4) { animation-delay: 0.54s; }
+.intro-content {
   position: relative;
-  opacity: 0;
-  -webkit-text-stroke: 0.05em #1a0820;
-  paint-order: stroke fill;
-  animation: cj-pop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s forwards, neon 1.6s steps(1) 0.95s;
+  display: grid;
+  justify-items: center;
+  gap: 1.4rem;
+  padding: 0 1.25rem;
+  animation: content-out 0.4s var(--ease-in-out-quart) 1.0s forwards;
 }
 .intro-name {
-  position: absolute;
-  top: calc(50% + min(31vw, 200px) * 1.02 + 1.2rem);
+  font-size: clamp(3rem, 11vw, 8.5rem);
+  color: var(--color-paper);
   white-space: nowrap;
+}
+.intro-char {
+  display: inline-block;
+  overflow: clip;
+  vertical-align: top;
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+.intro-char > span {
+  display: inline-block;
+  transform: translateY(110%);
+  animation: rise 0.8s var(--ease-out-expo) forwards;
+  animation-delay: calc(0.08s + var(--c) * 0.035s);
+}
+.intro-meter {
+  position: relative;
+  width: min(72vw, 460px);
+  height: 1px;
+  background: var(--color-line);
+}
+.intro-bar {
+  position: absolute;
+  inset: 0;
+  transform-origin: left;
+  transform: scaleX(0);
+  background: var(--color-apricot);
+  box-shadow: 0 0 12px rgb(242 153 74 / 0.8);
+  animation: meter 0.95s cubic-bezier(0.65, 0, 0.35, 1) 0.05s forwards;
+}
+.intro-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  width: min(72vw, 460px);
   font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.5em;
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: #2ee6f5;
-  text-shadow: 0 0 10px rgb(46 230 245 / 0.6);
-  opacity: 0;
-  animation: fade-in 0.4s ease 0.75s forwards;
+  color: var(--color-muted);
 }
-@keyframes sun-rise {
-  from { opacity: 0; translate: -50% -12%; }
-  to { opacity: 1; translate: -50% -42%; }
+.intro-num {
+  color: var(--color-apricot);
+  font-variant-numeric: tabular-nums;
+  counter-reset: pct var(--pct);
+  animation: count 0.95s cubic-bezier(0.65, 0, 0.35, 1) 0.05s forwards;
 }
-@keyframes horizon {
-  to { transform: scaleX(1); }
+.intro-num::after {
+  content: counter(pct, decimal-leading-zero) "%";
 }
-@keyframes cj-pop {
-  0% { opacity: 0; transform: scale(0.25) rotate(-18deg); }
-  60% { opacity: 1; transform: scale(1.14) rotate(-4deg); }
-  100% { opacity: 1; transform: scale(1) rotate(-7deg); }
+@keyframes ripple {
+  0% { opacity: 0; transform: scale(0.15); }
+  25% { opacity: 1; }
+  100% { opacity: 0; transform: scale(2.4); }
 }
-@keyframes neon {
-  0%, 100% { filter: none; }
-  8% { filter: brightness(1.6); }
-  12% { filter: brightness(0.6); }
-  16% { filter: brightness(1.4); }
-}
-html[data-intro="seen"] .intro {
+@keyframes meter { to { transform: scaleX(1); } }
+@keyframes count { to { --pct: 100; } }
+@keyframes content-out { to { opacity: 0; transform: translateY(-12px) scale(0.98); } }
+@keyframes fade-out { to { opacity: 0; } }
+@keyframes panel-up { to { transform: translateY(-101%); } }
+@keyframes panel-down { to { transform: translateY(101%); } }
+@keyframes intro-gone { to { visibility: hidden; } }html[data-intro="seen"] .intro {
   display: none;
 }
 @keyframes draw {
   to { stroke-dashoffset: 0; }
 }
-@keyframes intro-out {
-  to {
-    transform: translateY(-100%);
-    visibility: hidden;
-  }
-}
 @keyframes fade-in {
   to { opacity: 1; }
-}
-
-/* Hero topographic line art draws itself after the intro */
-.contour path {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  animation: draw 2.6s var(--ease-in-out-quart) forwards;
-  animation-delay: calc(var(--intro-delay) + var(--k, 0) * 45ms);
 }
 
 /* Hero word-by-word masked reveal */
@@ -408,12 +425,8 @@ html:not(.js) .candles .avg {
     animation-delay: 0.2s;
   }
   .marquee-track,
-  .pulse::after,
-  .contour path {
+  .pulse::after {
     animation: none;
-  }
-  .contour path {
-    stroke-dashoffset: 0;
   }
   html.js [data-reveal] {
     transform: none;
