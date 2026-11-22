@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 export function RollingWord({ words, startDelay = 2600, interval = 2400 }: { words: string[]; startDelay?: number; interval?: number }) {
   const [i, setI] = useState(0);
   const reduce = useReducedMotion();
-  const longest = words.reduce((a, b) => (b.length > a.length ? b : a), "");
 
   useEffect(() => {
     let id: ReturnType<typeof setInterval> | undefined;
@@ -28,10 +27,13 @@ export function RollingWord({ words, startDelay = 2600, interval = 2400 }: { wor
 
   return (
     <span className="relative inline-grid align-top" aria-live="off">
-      {/* invisible sizer */}
-      <span className="invisible col-start-1 row-start-1" aria-hidden="true">
-        {longest}
-      </span>
+      {/* Invisible sizers: every word, in the same italic style, stacked in one cell,
+          so the box is as wide as the widest word actually renders. */}
+      {words.map((w) => (
+        <span key={`size-${w}`} className="invisible col-start-1 row-start-1 whitespace-nowrap italic" aria-hidden="true">
+          {w}
+        </span>
+      ))}
       <span className="sr-only">{words[0]}</span>
       {/* Sequential: old word rolls up and out, then the new one rises in, so they never overlap neighbouring lines. */}
       <AnimatePresence initial={false} mode="wait">

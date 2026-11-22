@@ -58,7 +58,7 @@ export function Hero() {
             </span>
             <span className="block">
               <Words text={l2} start={n1} />
-              <span className="mask">
+              <span className="mask mask-roll">
                 <span className="rise" style={{ ["--i" as string]: n1 + n2 }}>
                   <RollingWord words={hero.rolling} />
                 </span>

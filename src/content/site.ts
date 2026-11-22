@@ -321,7 +321,6 @@ export const about = {
     { k: "Based in", v: "India" },
     { k: "Degree", num: "8.6", v: "GPA, BA (Hons) Political Science, Jadavpur University, 2024" },
     { k: "Studying", v: "MIT MicroMasters, Data, Economics and Design of Policy" },
-    { k: "Open to", v: "Bengaluru · Remote" },
   ] as { k: string; v: string; num?: string }[],
   skills: [
     "Partnerships",
@@ -377,7 +376,7 @@ export const timeline: TimelineItem[] = [
 export const now = {
   updated: "Updated Nov 2026",
   items: [
-    "Looking for an ops, growth or Founder's Office role in Bengaluru or remote.",
+    "Looking for an ops, growth or Founder's Office role.",
     "Building Stonefruit.",
     "Preparing for the GMAT.",
   ],

@@ -57,7 +57,6 @@ export function Contact() {
             <span className="mx-2 text-apricot">/</span>
             Contact
           </p>
-          <p className="label hidden sm:block">Bengaluru · Remote</p>
         </div>
 
         <Reveal>

@@ -157,6 +157,12 @@ html.lenis body {
   padding-right: 0.04em;
 }
 
+/* Rolling italic word: extra room for slanted overhangs and deep descenders (g, p, j). */
+.mask-roll {
+  padding: 0 0.25em 0.32em 0.06em;
+  margin: 0 -0.25em -0.32em -0.06em;
+}
+
 .uline {
   background-image: linear-gradient(currentColor, currentColor);
   background-size: 0% 1px;
