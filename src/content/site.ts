@@ -10,7 +10,7 @@ export const site = {
   location: "Hyderabad, IN",
   title: "Chirag Joshi · Operations, Partnerships & Growth",
   description:
-    "Operations, partnerships and growth. Secured conference funding from NATO and KAS, built a phone-photography community across 90+ countries, and ran 1,000 km in 100 days for flood relief.",
+    "Operations, partnerships and growth. Secured conference funding from NATO, built a phone-photography community across 90+ countries, and ran 1,000 km in 100 days for flood relief.",
 };
 
 export const hero = {
@@ -19,23 +19,35 @@ export const hero = {
   lines: ["I raise the funding.", "I run the", "I file the report."],
   rolling: ["thing.", "conference.", "campaign.", "community."],
   subline:
-    "Operations, partnerships and growth. Former founder. I've secured conference funding from NATO and KAS, built a photography community across 90+ countries, and ran 1,000 km in 100 days to raise money for flood relief.",
+    "Operations, partnerships and growth. Former founder. I've secured conference funding from NATO, built a photography community across 90+ countries, and ran 1,000 km in 100 days to raise money for flood relief.",
   status: "Open to ops, growth and Founder's Office roles",
 };
 
-export const stats = [
-  { value: 90, suffix: "+", label: "countries in the Public Phone community" },
-  { value: 1000, suffix: " km", label: "run in 100 days for flood relief" },
-  { value: 1, suffix: "M+", label: "impressions on the relief campaign" },
-  { value: 30, suffix: "+", label: "research pieces published" },
-  { value: 2, suffix: "", label: "international youth conferences run end to end" },
+export type StatIcon = "globe" | "continents" | "route" | "signal" | "donors" | "doc" | "podium" | "people";
+
+export const stats: { value: number; suffix: string; label: string; icon: StatIcon }[] = [
+  { value: 90, suffix: "+", label: "countries in the Public Phone community", icon: "globe" },
+  { value: 7, suffix: "", label: "continents that community reached", icon: "continents" },
+  { value: 1000, suffix: " km", label: "run in 100 days for flood relief", icon: "route" },
+  { value: 1, suffix: "M+", label: "impressions on the relief campaign", icon: "signal" },
+  { value: 3, suffix: "", label: "continents the donations came from", icon: "donors" },
+  { value: 30, suffix: "+", label: "research pieces published", icon: "doc" },
+  { value: 2, suffix: "", label: "international youth conferences run end to end", icon: "podium" },
+  { value: 6500, suffix: "+", label: "people following along on LinkedIn", icon: "people" },
 ];
 
 export const marquee = [
   "NATO",
-  "Konrad Adenauer Stiftung",
+  "MEA",
+  "UNICEF",
+  "EU",
   "The Geostrata",
+  "IIT Bombay",
+  "IIT Delhi",
   "MIT DEDP",
+  "MPs",
+  "Prime Ministers",
+  "Classmate",
   "Jadavpur University",
   "The Tribune",
   "Milaap",
@@ -72,6 +84,7 @@ export type Project = {
   result?: string;
   next?: string[];
   extra?: { heading: string; body: string }[];
+  figures: { value: string; label: string }[];
   links: LinkItem[];
 };
 
@@ -89,18 +102,19 @@ export const projects: Project[] = [
     oneLiner:
       "Funded, staffed and ran communications for an annual conference on security and diplomacy between Indian youth and NATO counterparts.",
     image: "/images/nato.jpg",
-    imageAlt: "A display jet climbing through cloud, toned in apricot and ink",
+    imageAlt: "A display jet climbing through cloud",
     visual: "image",
     brief:
       "A youth platform where Indian and NATO-country participants debate security, dialogue and diplomacy. It needed money, speakers and a programme.",
     did: [
-      "Secured the funding, from first approach to close (NATO and Konrad Adenauer Stiftung support for The Geostrata's conferences).",
+      "Secured the funding, from first approach to close (NATO support for The Geostrata's conferences).",
       "Built and kept the invoice trail for every sponsor and vendor.",
       "Identified, approached and confirmed the speaker and moderator line-up.",
       "Co-drafted the concept note and set the theme.",
       "Ran public channels and all external messaging.",
     ],
     result: "The 2026 edition ran in March, fully funded.",
+    figures: [{ value: "100%", label: "funded" }, { value: "5", label: "workstreams owned" }, { value: "Mar 2026", label: "edition delivered" }],
     links: [
       { label: "Conference site", href: "https://www.thegeostrata.com/nato-india-youth-conference" },
       { label: "Instagram", href: "https://www.instagram.com/natoindiayouthconference/" },
@@ -130,6 +144,7 @@ export const projects: Project[] = [
     ],
     result:
       "1,000 km completed. 1M+ impressions, donations from three continents, featured in The Tribune.",
+    figures: [{ value: "1,000 km", label: "run" }, { value: "100", label: "days straight" }, { value: "1M+", label: "impressions" }, { value: "3", label: "continents of donors" }],
     links: [
       { label: "Milaap fundraiser", href: "https://milaap.org/fundraisers/support-khalsa-aid-punjab-floods" },
       { label: "The Tribune", href: "https://www.tribuneindia.com/partner-exclusives/chirag-joshi-leads-a-major-fundraising-campaign-in-india-this-year/" },
@@ -160,6 +175,7 @@ export const projects: Project[] = [
     ],
     result:
       "A community spanning 90+ countries and all seven continents. Wound down in April 2026.",
+    figures: [{ value: "90+", label: "countries" }, { value: "7", label: "continents" }, { value: "1/day", label: "creator featured" }],
     links: [
       { label: "Instagram", href: "https://www.instagram.com/publicphone._/" },
       { label: "LinkedIn", href: "https://www.linkedin.com/company/publicphone/" },
@@ -187,6 +203,7 @@ export const projects: Project[] = [
       "Confirmed speakers and moderators.",
       "Ran external communications.",
     ],
+    figures: [{ value: "5", label: "workstreams led" }, { value: "3", label: "themes: policy, trade, security" }, { value: "2", label: "partners: India and Europe" }],
     links: [
       { label: "Event page", href: "https://luma.com/qslwwcwj" },
       { label: "LinkedIn", href: "https://www.linkedin.com/company/ieuyc/" },
@@ -220,6 +237,7 @@ export const projects: Project[] = [
       "Next: first paying users",
       "Later: deeper personalisation",
     ],
+    figures: [{ value: "1", label: "builder" }, { value: "Live", label: "stonefruitlabs.com" }, { value: "3", label: "roadmap stops" }],
     links: [{ label: "stonefruitlabs.com", href: "https://stonefruitlabs.com" }],
   },
   {
@@ -237,6 +255,7 @@ export const projects: Project[] = [
     image: "/images/research.jpg",
     imageAlt: "Open books stacked on a library table",
     visual: "research",
+    figures: [{ value: "30+", label: "published pieces" }, { value: "1", label: "pan-India survey" }, { value: "2023", label: "writing since" }],
     links: [],
   },
   {
@@ -255,6 +274,7 @@ export const projects: Project[] = [
     imageAlt: "",
     visual: "candles",
     extra: [{ heading: "Also built", body: "Covenant, a tool for M&A valuation." }],
+    figures: [{ value: "~30", label: "extern cohort, mostly US" }, { value: "1", label: "full investment memo" }, { value: "1", label: "M&A valuation tool built" }],
     links: [],
   },
 ];
@@ -298,6 +318,12 @@ export const about = {
   body: "I'm Chirag. I studied Political Science at Jadavpur University and I'm doing MIT's MicroMasters in Data, Economics and Design of Policy. I founded and ran Visual Merge, a phone-photography community and nonprofit, worked as a business consultant at Universal Hunt, and lead grants and engagements at The Geostrata, India's largest youth think tank.",
   close:
     "I like work where someone has to find the money, line up the people and make sure it actually happens. Long term, I want to build in human longevity.",
+  facts: [
+    { k: "Based in", v: "Hyderabad, IN" },
+    { k: "Degree", num: "8.6", v: "GPA, BA (Hons) Political Science, Jadavpur University, 2024" },
+    { k: "Studying", v: "MIT MicroMasters, Data, Economics and Design of Policy" },
+    { k: "Open to", v: "Bengaluru · Hyderabad · Remote" },
+  ] as { k: string; v: string; num?: string }[],
   skills: [
     "Partnerships",
     "Fundraising",

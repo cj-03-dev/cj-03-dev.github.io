@@ -34,7 +34,7 @@ export function Nav() {
       style={{ ["--d" as string]: "0.1s" }}
     >
       <nav aria-label="Main" className="mx-auto flex h-16 max-w-[1440px] items-center justify-between px-5 sm:px-8 lg:px-12">
-        <Link href="/" aria-label="Chirag Joshi, home" className="-ml-2 flex items-center gap-2 p-2 text-paper" data-cursor="Home">
+        <Link href="/" aria-label="Chirag Joshi, home" className="-ml-2 flex items-center gap-2 p-2 text-paper">
           <Monogram className="h-9 w-9" strokeWidth={3.2} />
         </Link>
         <div className="flex items-center gap-1 sm:gap-2">
@@ -52,7 +52,7 @@ export function Nav() {
           </ul>
           <a
             href={`mailto:${site.email}`}
-            data-cursor="Email"
+           
             className="ml-2 inline-flex h-9 items-center rounded-full bg-apricot px-4 font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-ink transition-transform duration-300 hover:-translate-y-0.5"
           >
             Email me

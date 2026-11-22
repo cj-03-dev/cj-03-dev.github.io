@@ -51,24 +51,39 @@ export function About() {
     <section id="about" className="mx-auto max-w-[1440px] scroll-mt-16 px-5 pb-24 sm:px-8 sm:pb-32 lg:px-12">
       <SectionHead num="02" title="About" aside="Field operator" />
       <div className="mt-8 grid gap-10 lg:mt-14 lg:grid-cols-12 lg:gap-12">
-        <Reveal className="lg:col-span-5">
-          <figure className="group">
-            <div className="duo duo-reveal duo-deep relative aspect-[4/5] overflow-hidden" data-cursor="Hello">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                {...img("/images/headshot")}
-                alt="Chirag Joshi standing on a beach in front of the sea"
-                loading="lazy"
-                className="h-full w-full object-cover object-[70%_60%] transition-[filter,transform] duration-700 group-hover:scale-[1.03]"
-              />
+        {/* Dossier card: small portrait plus key facts */}
+        <Reveal className="lg:col-span-4">
+          <div className="relative border border-line bg-ink-2/60 p-4 sm:p-5">
+            <span className="marks" aria-hidden="true" />
+            <div className="flex gap-5 lg:flex-col">
+              <figure className="w-24 shrink-0 sm:w-28 lg:w-36">
+                <div className="duo relative aspect-[4/5] overflow-hidden">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    {...img("/images/headshot")}
+                    alt="Chirag Joshi"
+                    loading="lazy"
+                    className="h-full w-full object-cover"
+                    style={{ transform: "scale(1.7)", transformOrigin: "78% 60%" }}
+                  />
+                </div>
+                <figcaption className="label mt-2 text-[10px]">Fig. 01</figcaption>
+              </figure>
+              <dl className="grid flex-1 content-start gap-3 text-sm">
+                {about.facts.map((f) => (
+                  <div key={f.k} className="border-b border-line pb-2.5 last:border-0 last:pb-0">
+                    <dt className="label text-[10px]">{f.k}</dt>
+                    <dd className="mt-1 leading-snug text-paper">
+                      {f.num && <span className="mr-1.5 font-mono text-apricot">{f.num}</span>}
+                      {f.v}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
             </div>
-            <figcaption className="label mt-3 flex justify-between">
-              <span>Chirag Joshi</span>
-              <span>Hyderabad, IN</span>
-            </figcaption>
-          </figure>
+          </div>
         </Reveal>
-        <div className="lg:col-span-7 lg:pl-6">
+        <div className="lg:col-span-8 lg:pl-10">
           <Reveal>
             <p className="display text-[clamp(3rem,7vw,6rem)] text-paper">{first}.</p>
           </Reveal>

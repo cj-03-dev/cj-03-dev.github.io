@@ -72,7 +72,7 @@ export function Contact() {
             <div className="flex flex-wrap items-center gap-3 sm:gap-5">
               <a
                 href={`mailto:${site.email}`}
-                data-cursor="Email"
+               
                 className="group display break-all text-[clamp(1.55rem,4.6vw,3.6rem)] leading-tight text-paper"
               >
                 <span className="uline pb-1 transition-colors duration-300 group-hover:text-apricot">{site.email}</span>
@@ -80,7 +80,7 @@ export function Contact() {
               <button
                 type="button"
                 onClick={copy}
-                data-cursor="Copy"
+               
                 aria-label="Copy email address"
                 className="relative inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-line text-paper transition-colors hover:border-apricot hover:text-apricot"
               >
@@ -91,14 +91,14 @@ export function Contact() {
           <Reveal delay={0.08} className="grid grid-cols-2 gap-6 lg:col-span-4">
             <div>
               <p className="label mb-3">LinkedIn</p>
-              <a href={site.linkedin} target="_blank" rel="noopener noreferrer" className="group text-lg text-paper" data-cursor="Open">
+              <a href={site.linkedin} target="_blank" rel="noopener noreferrer" className="group text-lg text-paper">
                 <span className="uline">in/cj-ceo-vm</span> <span aria-hidden="true" className="text-apricot">↗</span>
                 <span className="sr-only">(opens in a new tab)</span>
               </a>
             </div>
             <div>
               <p className="label mb-3">Phone</p>
-              <a href={site.phoneHref} className="group text-lg text-paper" data-cursor="Call">
+              <a href={site.phoneHref} className="group text-lg text-paper">
                 <span className="uline whitespace-nowrap">{site.phone}</span>
               </a>
             </div>
@@ -111,7 +111,7 @@ export function Contact() {
             <span className="tabular-nums text-paper">{time ?? "--:--:--"}</span> IST
           </p>
           <p className="label">© 2026 Chirag Joshi</p>
-          <button type="button" onClick={toTop} className="label group text-left transition-colors hover:text-paper sm:text-right" data-cursor="Top">
+          <button type="button" onClick={toTop} className="label group text-left transition-colors hover:text-paper sm:text-right">
             Back to top <span aria-hidden="true" className="inline-block text-apricot transition-transform group-hover:-translate-y-0.5">↑</span>
           </button>
         </div>

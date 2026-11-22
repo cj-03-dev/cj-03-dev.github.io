@@ -6,7 +6,6 @@ import { site } from "@/content/site";
 import { asset, SITE_URL } from "@/lib/asset";
 import { Monogram } from "@/components/Monogram";
 import { SmoothScroll } from "@/components/SmoothScroll";
-import { Cursor } from "@/components/Cursor";
 import { Nav } from "@/components/Nav";
 import { MotionProvider } from "@/components/MotionProvider";
 import { RevealObserver } from "@/components/RevealObserver";
@@ -90,7 +89,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <MotionProvider>
           <SmoothScroll />
           <RevealObserver />
-          <Cursor />
           <Nav />
           {children}
         </MotionProvider>

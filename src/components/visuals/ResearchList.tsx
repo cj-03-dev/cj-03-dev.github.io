@@ -27,7 +27,7 @@ export function ResearchList({ limit, className = "" }: { limit?: number; classN
         return (
           <li key={w.title} className="border-b border-line">
             {w.href ? (
-              <a href={w.href} target="_blank" rel="noopener noreferrer" data-cursor="Read" className="group flex items-start gap-4 py-5 sm:gap-6">
+              <a href={w.href} target="_blank" rel="noopener noreferrer" className="group flex items-start gap-4 py-5 sm:gap-6">
                 {inner}
                 <span className="sr-only">(opens in a new tab)</span>
               </a>

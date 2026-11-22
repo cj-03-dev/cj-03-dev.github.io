@@ -1,6 +1,6 @@
 import { hero, site } from "@/content/site";
-import { img } from "@/lib/asset";
 import { RollingWord } from "./RollingWord";
+import { Contours } from "./visuals/Contours";
 
 function Words({ text, start }: { text: string; start: number }) {
   return (
@@ -24,18 +24,16 @@ export function Hero() {
 
   return (
     <section id="top" className="relative isolate flex min-h-[100svh] flex-col overflow-hidden pt-16">
-      {/* Atmospheric texture, duotoned and faded into the ink */}
+      {/* Topographic line art: a survey map of "the field", drawn in after the intro */}
       <div
         aria-hidden="true"
-        className="after-intro duo duo-soft pointer-events-none absolute inset-y-0 right-0 -z-10 w-full opacity-[0.22] md:w-[58%] md:opacity-30"
+        className="pointer-events-none absolute inset-0 -z-10 opacity-45 md:left-[30%] md:opacity-100"
         style={{
-          ["--d" as string]: "-0.3s",
-          maskImage: "linear-gradient(to left, black 5%, transparent 90%)",
-          WebkitMaskImage: "linear-gradient(to left, black 5%, transparent 90%)",
+          maskImage: "linear-gradient(to left, black 40%, transparent 98%)",
+          WebkitMaskImage: "linear-gradient(to left, black 40%, transparent 98%)",
         }}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img {...img("/images/hero-texture")} sizes="(min-width: 768px) 58vw, 100vw" alt="" className="h-full w-full object-cover object-right" fetchPriority="low" />
+        <Contours className="h-full w-full" />
       </div>
 
       <div className="mx-auto flex w-full max-w-[1440px] flex-1 flex-col px-5 sm:px-8 lg:px-12">
@@ -80,7 +78,7 @@ export function Hero() {
               <div className="flex flex-wrap gap-3">
                 <a
                   href={`mailto:${site.email}`}
-                  data-cursor="Email"
+                 
                   className="group inline-flex h-12 items-center gap-3 rounded-full bg-apricot px-6 font-medium text-ink transition-transform duration-300 hover:-translate-y-0.5"
                 >
                   Email me
@@ -90,7 +88,7 @@ export function Hero() {
                 </a>
                 <a
                   href="#work"
-                  data-cursor="View"
+                 
                   className="group inline-flex h-12 items-center gap-3 rounded-full border border-line px-6 font-medium text-paper transition-colors duration-300 hover:border-paper/50"
                 >
                   See the work

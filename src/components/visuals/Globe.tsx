@@ -77,7 +77,7 @@ export default function Globe({ className = "" }: { className?: string }) {
   return (
     <canvas
       ref={canvasRef}
-      data-cursor="Drag"
+     
       aria-label="Rotating globe with markers across all seven continents. Drag to spin."
       role="img"
       className={`aspect-square w-full cursor-grab touch-pan-y opacity-0 transition-opacity duration-1000 active:cursor-grabbing ${className}`}

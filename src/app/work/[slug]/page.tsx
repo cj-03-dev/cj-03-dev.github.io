@@ -5,7 +5,7 @@ import { projects, type Project } from "@/content/site";
 import { asset } from "@/lib/asset";
 import { Reveal } from "@/components/Reveal";
 import { Contact } from "@/components/Contact";
-import { FileHeader } from "@/components/ProjectFile";
+import { FileHeader, Figures } from "@/components/ProjectFile";
 import { ParallaxImage } from "@/components/visuals/ParallaxImage";
 import { RunLog } from "@/components/visuals/RunLog";
 import { GlobePanel } from "@/components/visuals/GlobePanel";
@@ -84,7 +84,7 @@ export default async function CasePage({ params }: Params) {
           <div className="absolute inset-0 -z-10 bg-gradient-to-t from-ink via-ink/60 to-ink/10" aria-hidden="true" />
           <div className="absolute inset-x-0 top-0 -z-10 h-40 bg-gradient-to-b from-ink/80 to-transparent" aria-hidden="true" />
           <div className="mx-auto w-full max-w-[1440px] px-5 pb-10 sm:px-8 sm:pb-14 lg:px-12">
-            <Link href="/#work" className="group label mb-8 inline-flex items-center gap-2 transition-colors hover:text-paper" data-cursor="Back">
+            <Link href="/#work" className="group label mb-8 inline-flex items-center gap-2 transition-colors hover:text-paper">
               <span aria-hidden="true" className="transition-transform group-hover:-translate-x-1">←</span> All files
             </Link>
             <h1 className="display max-w-[14ch] text-[clamp(3.2rem,10vw,9rem)] text-paper">
@@ -115,7 +115,7 @@ export default async function CasePage({ params }: Params) {
                 <dt className="label">Links</dt>
                 <dd className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm">
                   {p.links.map((l) => (
-                    <a key={l.href} href={l.href} target="_blank" rel="noopener noreferrer" className="group text-paper" data-cursor="Open">
+                    <a key={l.href} href={l.href} target="_blank" rel="noopener noreferrer" className="group text-paper">
                       <span className="uline">{l.label}</span> <span aria-hidden="true" className="text-apricot">↗</span>
                       <span className="sr-only">(opens in a new tab)</span>
                     </a>
@@ -126,7 +126,10 @@ export default async function CasePage({ params }: Params) {
           </dl>
 
           <Reveal>
-            <p className="display max-w-[24ch] py-14 text-[clamp(2rem,4.6vw,3.8rem)] leading-[1.05] text-paper sm:py-20">{p.oneLiner}</p>
+            <p className="display max-w-[24ch] pb-10 pt-14 text-[clamp(2rem,4.6vw,3.8rem)] leading-[1.05] text-paper sm:pb-14 sm:pt-20">{p.oneLiner}</p>
+          </Reveal>
+          <Reveal className="pb-14 sm:pb-20">
+            <Figures items={p.figures} className="max-w-3xl" />
           </Reveal>
 
           {p.brief && (
@@ -179,7 +182,7 @@ export default async function CasePage({ params }: Params) {
           )}
 
           {/* Next file */}
-          <Link href={`/work/${next.slug}/`} className="group mt-10 block border-t border-line py-14 sm:py-20" data-cursor="Next">
+          <Link href={`/work/${next.slug}/`} className="group mt-10 block border-t border-line py-14 sm:py-20">
             <p className="label">
               Next file <span className="mx-1.5 text-apricot">/</span> {next.file}
             </p>

@@ -55,7 +55,7 @@ const og = h(
       { style: { display: "flex", gap: 34, fontFamily: "JetBrains Mono", fontSize: 22, color: APRICOT } },
       h("span", null, "90+ countries"),
       h("span", null, "1,000 km"),
-      h("span", null, "NATO · KAS")
+      h("span", null, "NATO-funded")
     )
   )
 );

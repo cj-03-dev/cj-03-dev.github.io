@@ -73,12 +73,6 @@ html.lenis body {
   overflow: hidden;
 }
 
-/* Custom cursor: hide native pointer only when ours is active */
-html.has-cursor,
-html.has-cursor * {
-  cursor: none !important;
-}
-
 @layer components {
 /* ---------- Type helpers ---------- */
 .label {
@@ -112,7 +106,7 @@ html.has-cursor * {
   transform: translateZ(0);
 }
 
-/* ---------- Duotone image treatment ---------- */
+/* ---------- Monochrome image treatment ---------- */
 .duo {
   position: relative;
   overflow: hidden;
@@ -120,46 +114,40 @@ html.has-cursor * {
   isolation: isolate;
 }
 .duo img {
-  filter: grayscale(1) contrast(1.12) brightness(0.88);
+  filter: grayscale(1) contrast(1.08) brightness(0.8);
+  transition: filter 0.8s ease, transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.duo::before,
+/* soft ink vignette so type and labels sit well on top */
 .duo::after {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 2;
+  background: radial-gradient(ellipse at 50% 40%, transparent 55%, rgb(14 13 11 / 0.45));
 }
-.duo::before {
-  background: var(--color-apricot);
-  mix-blend-mode: multiply;
-}
-.duo::after {
-  background: var(--color-plum);
-  mix-blend-mode: lighten;
-}
-.duo-soft::before {
-  opacity: 0.85;
-}
-.duo-deep::before {
-  opacity: 0.6;
-}
-.duo-deep img {
-  filter: grayscale(1) contrast(1.05) brightness(0.78);
-}
-.duo::before,
-.duo::after,
-.duo img {
-  transition: opacity 0.8s ease, filter 0.8s ease, transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.group:hover .duo-reveal::before,
-.group:hover .duo-reveal::after {
-  opacity: 0;
-}
-.group:hover .duo-reveal img {
-  filter: none;
+.group:hover .duo img {
+  filter: grayscale(1) contrast(1.1) brightness(0.9);
 }
 
+/* Print-style crop marks on framed visuals */
+.marks {
+  position: absolute;
+  inset: -7px;
+  pointer-events: none;
+  z-index: 4;
+  background:
+    linear-gradient(var(--color-muted), var(--color-muted)) 0 0 / 14px 1px,
+    linear-gradient(var(--color-muted), var(--color-muted)) 0 0 / 1px 14px,
+    linear-gradient(var(--color-muted), var(--color-muted)) 100% 0 / 14px 1px,
+    linear-gradient(var(--color-muted), var(--color-muted)) 100% 0 / 1px 14px,
+    linear-gradient(var(--color-muted), var(--color-muted)) 0 100% / 14px 1px,
+    linear-gradient(var(--color-muted), var(--color-muted)) 0 100% / 1px 14px,
+    linear-gradient(var(--color-muted), var(--color-muted)) 100% 100% / 14px 1px,
+    linear-gradient(var(--color-muted), var(--color-muted)) 100% 100% / 1px 14px;
+  background-repeat: no-repeat;
+  opacity: 0.7;
+}
 .mask {
   display: inline-block;
   overflow: clip;
@@ -215,6 +203,14 @@ html[data-intro="seen"] .intro {
 }
 @keyframes fade-in {
   to { opacity: 1; }
+}
+
+/* Hero topographic line art draws itself after the intro */
+.contour path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw 2.6s var(--ease-in-out-quart) forwards;
+  animation-delay: calc(var(--intro-delay) + var(--k, 0) * 45ms);
 }
 
 /* Hero word-by-word masked reveal */
@@ -319,8 +315,12 @@ html:not(.js) .candles .avg {
     animation-delay: 0.2s;
   }
   .marquee-track,
-  .pulse::after {
+  .pulse::after,
+  .contour path {
     animation: none;
+  }
+  .contour path {
+    stroke-dashoffset: 0;
   }
   html.js [data-reveal] {
     transform: none;

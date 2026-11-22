@@ -30,6 +30,20 @@ export function FileHeader({ p, className = "" }: { p: Project; className?: stri
   );
 }
 
+// Key figures: mono numbers on hairline cells.
+export function Figures({ items, className = "" }: { items: Project["figures"]; className?: string }) {
+  return (
+    <ul className={`grid gap-px border border-line bg-line ${items.length > 3 ? "grid-cols-2 sm:grid-cols-4" : "grid-cols-3"} ${className}`}>
+      {items.map((f) => (
+        <li key={f.label} className="flex flex-col justify-between gap-2 bg-ink px-3 py-3">
+          <span className="whitespace-nowrap font-mono text-lg leading-none text-apricot sm:text-xl">{f.value}</span>
+          <span className="text-[11px] leading-snug text-muted">{f.label}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 function OpenLabel() {
   return (
     <span className="pointer-events-none absolute bottom-0 left-0 z-[3] flex translate-y-[105%] items-center gap-2 bg-apricot px-4 py-2.5 font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-ink transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0 group-focus-visible:translate-y-0">
@@ -40,7 +54,7 @@ function OpenLabel() {
 
 function ImageLink({ p, aspect = "aspect-[4/3]" }: { p: Project; aspect?: string }) {
   return (
-    <Link href={`/work/${p.slug}/`} className="group block" data-cursor="Open" aria-label={`Open file: ${p.title}`}>
+    <Link href={`/work/${p.slug}/`} className="group block" aria-label={`Open file: ${p.title}`}>
       <ParallaxImage src={p.image} alt={p.imageAlt} className={aspect}>
         <OpenLabel />
       </ParallaxImage>
@@ -62,7 +76,7 @@ function Visual({ p }: { p: Project }) {
     case "roadmap":
       return (
         <div className="flex flex-col gap-8">
-          <Link href={`/work/${p.slug}/`} className="group relative block" data-cursor="Open">
+          <Link href={`/work/${p.slug}/`} className="group relative block">
             <StonefruitFrame />
             <span className="absolute inset-0 overflow-hidden">
               <OpenLabel />
@@ -80,7 +94,7 @@ function Visual({ p }: { p: Project }) {
       );
     case "candles":
       return (
-        <Link href={`/work/${p.slug}/`} className="group relative block overflow-hidden" data-cursor="Open">
+        <Link href={`/work/${p.slug}/`} className="group relative block overflow-hidden">
           <Candles />
           <OpenLabel />
         </Link>
@@ -99,7 +113,7 @@ export function ProjectFile({ p, index }: { p: Project; index: number }) {
         <div className={`flex flex-col lg:col-span-5 ${flip ? "lg:order-2 lg:col-start-8" : ""}`}>
           <Reveal>
             <h3 className="display text-[clamp(2.6rem,6.4vw,5.6rem)] text-paper">
-              <Link href={`/work/${p.slug}/`} className="transition-colors duration-300 hover:text-apricot" data-cursor="Open">
+              <Link href={`/work/${p.slug}/`} className="transition-colors duration-300 hover:text-apricot">
                 {p.title}
               </Link>
             </h3>
@@ -119,10 +133,13 @@ export function ProjectFile({ p, index }: { p: Project; index: number }) {
               </div>
             </dl>
           </Reveal>
+          <Reveal delay={0.17}>
+            <Figures items={p.figures} className="mt-6" />
+          </Reveal>
           <Reveal delay={0.2} className="mt-8 lg:mt-auto lg:pt-10">
             <Link
               href={`/work/${p.slug}/`}
-              data-cursor="Open"
+             
               className="group inline-flex items-center gap-3 font-mono text-xs uppercase tracking-[0.16em] text-apricot"
             >
               <span className="uline pb-1">Open file {p.file}</span>
@@ -132,7 +149,8 @@ export function ProjectFile({ p, index }: { p: Project; index: number }) {
             </Link>
           </Reveal>
         </div>
-        <div className={`lg:col-span-7 ${flip ? "lg:order-1 lg:col-start-1" : ""}`}>
+        <div className={`relative lg:col-span-7 ${flip ? "lg:order-1 lg:col-start-1" : ""}`}>
+          <span className="marks" aria-hidden="true" />
           <Visual p={p} />
         </div>
       </div>
