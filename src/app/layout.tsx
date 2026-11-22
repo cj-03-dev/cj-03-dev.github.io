@@ -87,13 +87,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           Skip to content
         </a>
-        {/* Loading screen (pure CSS, about 1.6s, no text): warp-speed stars, a black hole with a
-            spinning accretion disk forms, the camera dives in, then the screen splits open. */}
+        {/* Loading screen (no text): warp-speed stars, then a ray-traced black hole fades in and
+            the camera falls into it before the screen splits open. Stars only without WebGL. */}
         <div className="intro" aria-hidden="true">
           <div className="intro-panel intro-panel-top" />
           <div className="intro-panel intro-panel-bottom" />
           <IntroMark />
-          {/* Ray-traced WebGL black hole; replaces the CSS scene when WebGL works */}
+          {/* Ray-traced WebGL black hole (src/lib/blackHoleScript.ts) */}
           <canvas id="bh-gl" className="bh-canvas" suppressHydrationWarning />
         </div>
         <script dangerouslySetInnerHTML={{ __html: BLACK_HOLE_SCRIPT }} />

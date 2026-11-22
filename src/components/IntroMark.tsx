@@ -1,6 +1,5 @@
-// Interstellar-style loading scene, pure CSS (see .space in globals.css):
-// stars rush past at warp speed, a black hole forms with a spinning
-// accretion disk and a lensed halo, then the camera dives in.
+// Loading backdrop, pure CSS (see .space in globals.css): stars rush past at warp
+// speed while the ray-traced black hole (WebGL) gets ready to fade in over it.
 // Star positions are deterministic so server and client match.
 
 function rng(seed: number) {
@@ -35,14 +34,6 @@ export function IntroMark() {
     <div className="space" aria-hidden="true">
       <span className="stars stars-far" style={{ boxShadow: FAR }} />
       <span className="stars stars-near" style={{ boxShadow: NEAR }} />
-      {/* Back to front: glow, lensed image of the disk's far side (arcing over the
-          top and under the bottom), the shadow, then the disk crossing in front. */}
-      <div className="bh">
-        <span className="bh-glow" />
-        <span className="bh-lens" />
-        <span className="bh-core" />
-        <span className="bh-disk" />
-      </div>
     </div>
   );
 }

@@ -72,7 +72,7 @@ vec3 starLayer(vec3 d,float N,float keep,float seed){
   if(h31(key)>keep) return vec3(0.);
   vec2 sp=vec2(h31(key+1.3),h31(key+7.1))*.7+.15;
   float dd=length(f-sp);
-  float sig=max(.3*uPix*N,.018);
+  float sig=max(.55*uPix*N,.018); // about half a screen pixel, whatever the render density
   float m=h31(key+9.2);
   float b=pow(m,8.)*9.+.22;
   float core=exp(-dd*dd/(2.*sig*sig));
@@ -166,7 +166,7 @@ void main(){
 
 const POST = String.raw`
 precision highp float;
-uniform sampler2D uTex;
+uniform sampler2D uTex, uBlm;
 uniform vec2 uRes, uTS;
 uniform float uExpo, uTime;
 float h21(vec2 p){p=fract(p*vec2(233.34,851.73));p+=dot(p,p+23.45);return fract(p.x*p.y);}
@@ -174,21 +174,22 @@ vec3 aces(vec3 x){return clamp((x*(2.51*x+.03))/(x*(2.43*x+.59)+.14),0.,1.);}
 // one mip level, smoothed with four diagonal taps one texel of that level apart
 vec3 lv(vec2 uv,float l){
   vec2 o=uTS*exp2(l)*.75;
-  return (texture2D(uTex,uv+vec2(o.x,o.y),l).rgb+texture2D(uTex,uv+vec2(-o.x,o.y),l).rgb
-         +texture2D(uTex,uv+vec2(o.x,-o.y),l).rgb+texture2D(uTex,uv-o,l).rgb);
+  return (texture2D(uBlm,uv+vec2(o.x,o.y),l).rgb+texture2D(uBlm,uv+vec2(-o.x,o.y),l).rgb
+         +texture2D(uBlm,uv+vec2(o.x,-o.y),l).rgb+texture2D(uBlm,uv-o,l).rgb);
 }
 void main(){
   vec2 uv=gl_FragCoord.xy/uRes;
   vec3 base=texture2D(uTex,uv).rgb*4.;
   // bloom: wide, soft, layered glow from progressively blurrier mip levels
-  vec3 bloom=max(lv(uv,2.)-.55,0.)*.30+max(lv(uv,3.)-.45,0.)*.28
-            +max(lv(uv,4.)-.35,0.)*.24+max(lv(uv,5.)-.25,0.)*.20+max(lv(uv,6.)-.2,0.)*.16;
+  // (the glow copy is half resolution, so its level n matches level n+1 of the full image)
+  vec3 bloom=max(lv(uv,1.)-.55,0.)*.30+max(lv(uv,2.)-.45,0.)*.28
+            +max(lv(uv,3.)-.35,0.)*.24+max(lv(uv,4.)-.25,0.)*.20+max(lv(uv,5.)-.2,0.)*.16;
   // anamorphic streak: horizontal taps on a blurred level, spaced one texel apart so they merge
   vec3 streak=vec3(0.);
-  float sx=uTS.x*8.;
+  float sx=uTS.x*4.;
   for(int i=-9;i<=9;i++){
     float fi=float(i);
-    vec3 s=texture2D(uTex,uv+vec2(fi*sx,0.),3.).rgb*4.;
+    vec3 s=texture2D(uBlm,uv+vec2(fi*sx,0.),2.).rgb*4.;
     streak+=max(s-1.5,0.)*(1.-abs(fi)/10.);
   }
   vec3 col=base+bloom*1.15+streak*vec3(.55,.42,1.)*.035;
@@ -199,6 +200,8 @@ void main(){
   col+=(h21(gl_FragCoord.xy+fract(uTime*7.)*91.)-.5)*.018;
   gl_FragColor=vec4(pow(max(col,0.),vec3(1./2.2)),1.);
 }`;
+
+const COPY = `precision mediump float;uniform sampler2D uTex;uniform vec2 uRes;void main(){gl_FragColor=texture2D(uTex,gl_FragCoord.xy/uRes);}`;
 
 const JS = String.raw`
 (function(){
@@ -211,26 +214,31 @@ const JS = String.raw`
   if(!gl) return;
   var small=Math.min(innerWidth,innerHeight)<700;
   var steps=small?190:240;
-  var scale=small?0.8:0.62;
+  // render at the screen's real pixel density (capped) so the image is crisp
+  var dpr=Math.min(window.devicePixelRatio||1,2);
+  var scale=dpr*(small?0.9:1);
+  // cap the pixel count (about 1080p) so big or high-density screens stay smooth
+  var cap=small?1.1e6:2.1e6, px=innerWidth*innerHeight*scale*scale;
+  if(px>cap) scale*=Math.sqrt(cap/px);
   var par=gl.getExtension('KHR_parallel_shader_compile');
   function mk(type,src){var s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);return s;}
   function link(fs){var v=mk(gl.VERTEX_SHADER,VERT_SRC),f=mk(gl.FRAGMENT_SHADER,fs);var p=gl.createProgram();gl.attachShader(p,v);gl.attachShader(p,f);gl.bindAttribLocation(p,0,'a');gl.linkProgram(p);return p;}
-  var pS=null, pP=null;
-  function ready(){return !par||(gl.getProgramParameter(pS,par.COMPLETION_STATUS_KHR)&&gl.getProgramParameter(pP,par.COMPLETION_STATUS_KHR));}
+  var pS=null, pP=null, pC=null;
+  function ready(){return !par||(gl.getProgramParameter(pS,par.COMPLETION_STATUS_KHR)&&gl.getProgramParameter(pP,par.COMPLETION_STATUS_KHR)&&gl.getProgramParameter(pC,par.COMPLETION_STATUS_KHR));}
   // the CSS intro's clock (ms since its animations began); falls back to script time
   var panel=document.querySelector('.intro-panel');
   function cssT(){ try{ var a=panel.getAnimations(); if(a.length&&a[0].currentTime!=null) return +a[0].currentTime; }catch(e){} return performance.now()-T0; }
   function wait(){
-    if(cssT()>1040) return; // too late: the CSS scene is about to dive, let it finish
+    if(cssT()>1300) return; // too late: the panels are about to open, skip the black hole
     if(!ready()){requestAnimationFrame(wait);return;}
-    if(!gl.getProgramParameter(pS,gl.LINK_STATUS)||!gl.getProgramParameter(pP,gl.LINK_STATUS)) return;
+    if(!gl.getProgramParameter(pS,gl.LINK_STATUS)||!gl.getProgramParameter(pP,gl.LINK_STATUS)||!gl.getProgramParameter(pC,gl.LINK_STATUS)) return;
     start();
   }
   function start(){
     var buf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buf);
     gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
     gl.enableVertexAttribArray(0);gl.vertexAttribPointer(0,2,gl.FLOAT,false,0,0);
-    var tex=gl.createTexture(), fbo=gl.createFramebuffer(), W=0,H=0,TW=0,TH=0;
+    var tex=gl.createTexture(), fbo=gl.createFramebuffer(), btex=gl.createTexture(), bfbo=gl.createFramebuffer(), W=0,H=0,TW=0,TH=0;
     // 256x256 random noise texture on unit 1, mipmapped and repeating
     var nt=gl.createTexture(), nd=new Uint8Array(256*256*4), sd=1337;
     for(var i=0;i<nd.length;i++){ sd=(sd*16807)%2147483647; nd[i]=sd&255; }
@@ -239,64 +247,86 @@ const JS = String.raw`
     gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.REPEAT); gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.REPEAT);
     gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR_MIPMAP_LINEAR);
     gl.generateMipmap(gl.TEXTURE_2D); gl.activeTexture(gl.TEXTURE0);
-    function size(){
-      W=Math.max(2,Math.round(innerWidth*scale)); H=Math.max(2,Math.round(innerHeight*scale));
-      cv.width=W; cv.height=H;
-      // power-of-two scene target so the post pass can blur it with mipmaps
-      TW=Math.pow(2,Math.round(Math.log(W)/Math.LN2)); TH=Math.pow(2,Math.round(Math.log(H)/Math.LN2));
-      gl.bindTexture(gl.TEXTURE_2D,tex);
-      gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,TW,TH,0,gl.RGBA,gl.UNSIGNED_BYTE,null);
-      gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR_MIPMAP_LINEAR);
+    function target(t,f,w,h,mip){
+      gl.bindTexture(gl.TEXTURE_2D,t);
+      gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,w,h,0,gl.RGBA,gl.UNSIGNED_BYTE,null);
+      gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,mip?gl.LINEAR_MIPMAP_LINEAR:gl.LINEAR);
       gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
       gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);
       gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
-      gl.bindFramebuffer(gl.FRAMEBUFFER,fbo);
-      gl.framebufferTexture2D(gl.FRAMEBUFFER,gl.COLOR_ATTACHMENT0,gl.TEXTURE_2D,tex,0);
+      gl.bindFramebuffer(gl.FRAMEBUFFER,f);
+      gl.framebufferTexture2D(gl.FRAMEBUFFER,gl.COLOR_ATTACHMENT0,gl.TEXTURE_2D,t,0);
+      return gl.checkFramebufferStatus(gl.FRAMEBUFFER)===gl.FRAMEBUFFER_COMPLETE;
     }
-    size();
-    if(gl.checkFramebufferStatus(gl.FRAMEBUFFER)!==gl.FRAMEBUFFER_COMPLETE) return;
+    function size(){
+      W=Math.max(2,Math.round(innerWidth*scale)); H=Math.max(2,Math.round(innerHeight*scale));
+      cv.width=W; cv.height=H;
+      // the scene at full resolution (drawn 1:1, no stretching), plus a half-size
+      // power-of-two copy that is mipmapped for the glow and the lens streak
+      TW=Math.pow(2,Math.round(Math.log(W/2)/Math.LN2)); TH=Math.pow(2,Math.round(Math.log(H/2)/Math.LN2));
+      return target(tex,fbo,W,H,false)&&target(btex,bfbo,TW,TH,true);
+    }
+    if(!size()) return;
     var U=function(p,n){return gl.getUniformLocation(p,n);};
     var sRes=U(pS,'uRes'),sTime=U(pS,'uTime'),sDist=U(pS,'uDist'),sYaw=U(pS,'uYaw'),sPix=U(pS,'uPix'),sNoise=U(pS,'uNoise'),sAsp=U(pS,'uAsp'),sFoc=U(pS,'uFoc'),sLift=U(pS,'uLift');
-    var qTex=U(pP,'uTex'),qRes=U(pP,'uRes'),qExpo=U(pP,'uExpo'),qTime=U(pP,'uTime'),qTS=U(pP,'uTS');
+    var qTex=U(pP,'uTex'),qRes=U(pP,'uRes'),qExpo=U(pP,'uExpo'),qTime=U(pP,'uTime'),qTS=U(pP,'uTS'),qBlm=U(pP,'uBlm'),cTex=U(pC,'uTex'),cRes=U(pC,'uRes');
     var D0=(innerWidth/innerHeight)<1?62:30;
-    T0=performance.now()-cssT();
-    var last=performance.now(), slow=0, done=false, shown=false, opened=false;
+    // the black hole always gets its full sequence, timed from now; the page reveal waits for it
+    var c0=cssT()/1000; T0=performance.now();
+    d.style.setProperty('--intro-delay',(c0+1.85).toFixed(2)+'s');
+    var last=performance.now(), slow=0, done=false, shown=false, opened=false, nf=0, tsum=0;
+    function lose(){ var x=gl.getExtension('WEBGL_lose_context'); if(x) x.loseContext(); }
+    // too slow to animate smoothly on this device: skip straight to the page
+    function bail(){ done=true; d.classList.add('intro-open'); setTimeout(function(){ d.classList.add('intro-done'); lose(); },650); }
     function ss(a,b,x){x=Math.min(1,Math.max(0,(x-a)/(b-a)));return x*x*(3-2*x);}
     function frame(now){
       if(done) return;
       var t=(now-T0)/1000;
-      if(now-last>70 && t>0.4){ if(++slow>3 && scale>0.36){ scale*=0.8; size(); slow=0; } }
+      var fdt=now-last;
+      if(nf>0){ tsum+=fdt; if(fdt>250||(nf>=6&&tsum/nf>90)){ bail(); return; } }
+      nf++;
+      if(fdt>70 && t>0.4){ if(++slow>3 && scale>0.5){ scale*=0.8; size(); slow=0; } }
       last=now;
       // approach, then fall into the shadow: dolly in and zoom until it fills the frame
-      var e=Math.min(1,Math.max(0,(t-1.45)/0.6));
-      var dist=D0*(1.14-0.14*ss(0,1.45,t))*(1-0.45*e*e);
+      var e=Math.min(1,Math.max(0,(t-1.15)/0.6));
+      var dist=D0*(1.14-0.14*ss(0,1.15,t))*(1-0.45*e*e);
       var foc=1.75*(1+6*e*e*e);
       var expo=ss(0,0.45,t)*(1+0.5*e*e);
-      gl.bindFramebuffer(gl.FRAMEBUFFER,fbo); gl.viewport(0,0,TW,TH);
+      gl.bindFramebuffer(gl.FRAMEBUFFER,fbo); gl.viewport(0,0,W,H);
       gl.useProgram(pS);
-      gl.uniform2f(sRes,TW,TH); gl.uniform1f(sAsp,W/H); gl.uniform1f(sTime,t+3.0); gl.uniform1f(sDist,dist);
-      gl.uniform1f(sYaw,0.35+t*0.05+0.22*e*e); gl.uniform1f(sFoc,foc); gl.uniform1f(sLift,1.4/dist*e*e); gl.uniform1f(sPix,1/(foc*TH)); gl.uniform1i(sNoise,1);
+      gl.uniform2f(sRes,W,H); gl.uniform1f(sAsp,W/H); gl.uniform1f(sTime,t+3.0); gl.uniform1f(sDist,dist);
+      gl.uniform1f(sYaw,0.35+t*0.05+0.22*e*e); gl.uniform1f(sFoc,foc); gl.uniform1f(sLift,1.4/dist*e*e); gl.uniform1f(sPix,scale/(foc*H)); gl.uniform1i(sNoise,1);
       gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D,nt); gl.activeTexture(gl.TEXTURE0);
       gl.drawArrays(gl.TRIANGLES,0,3);
+      // half-size copy for the glow, then mipmap it
+      gl.bindFramebuffer(gl.FRAMEBUFFER,bfbo); gl.viewport(0,0,TW,TH);
+      gl.useProgram(pC);
+      gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D,tex);
+      gl.uniform1i(cTex,0); gl.uniform2f(cRes,TW,TH);
+      gl.drawArrays(gl.TRIANGLES,0,3);
+      gl.bindTexture(gl.TEXTURE_2D,btex); gl.generateMipmap(gl.TEXTURE_2D);
+      // final image
       gl.bindFramebuffer(gl.FRAMEBUFFER,null); gl.viewport(0,0,W,H);
       gl.useProgram(pP);
-      gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D,tex); gl.generateMipmap(gl.TEXTURE_2D);
-      gl.uniform1i(qTex,0); gl.uniform2f(qRes,W,H); gl.uniform2f(qTS,1/TW,1/TH); gl.uniform1f(qExpo,expo); gl.uniform1f(qTime,t);
+      gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D,tex);
+      gl.activeTexture(gl.TEXTURE2); gl.bindTexture(gl.TEXTURE_2D,btex); gl.activeTexture(gl.TEXTURE0);
+      gl.uniform1i(qTex,0); gl.uniform1i(qBlm,2); gl.uniform2f(qRes,W,H); gl.uniform2f(qTS,1/TW,1/TH); gl.uniform1f(qExpo,expo); gl.uniform1f(qTime,t);
       gl.drawArrays(gl.TRIANGLES,0,3);
-      // swap the CSS scene for the ray-traced one only once a real frame exists
+      // show the canvas only once a real frame exists
       if(!shown){ shown=true; d.classList.add('intro-gl'); }
       // inside the shadow: open the panels onto the page, then clean up
-      if(t>2.0&&!opened){ opened=true; d.classList.add('intro-open'); }
-      if(t>2.65){ done=true; d.classList.add('intro-done'); var x=gl.getExtension('WEBGL_lose_context'); if(x) x.loseContext(); return; }
+      if(t>1.7&&!opened){ opened=true; d.classList.add('intro-open'); }
+      if(t>2.35){ done=true; d.classList.add('intro-done'); lose(); return; }
       requestAnimationFrame(frame);
     }
     requestAnimationFrame(frame);
   }
-  function go(){ pS=link('#define STEPS '+steps+'\n'+SCENE_SRC); pP=link(POST_SRC); requestAnimationFrame(wait); }
+  function go(){ pS=link('#define STEPS '+steps+'\n'+SCENE_SRC); pP=link(POST_SRC); pC=link(COPY_SRC); requestAnimationFrame(wait); }
   // With parallel compile the GPU builds the shaders in the background, so start now.
-  // Without it compiling blocks, so wait for the first paint (the CSS scene shows meanwhile).
+  // Without it compiling blocks, so wait for the first paint (the starfield shows meanwhile).
   if(par) go(); else requestAnimationFrame(go);
 })();`;
 export const BLACK_HOLE_SCRIPT = JS.replace("VERT_SRC", JSON.stringify(VERT))
   .replace("SCENE_SRC", JSON.stringify(SCENE))
-  .replace("POST_SRC", JSON.stringify(POST));
+  .replace("POST_SRC", JSON.stringify(POST))
+  .replace("COPY_SRC", JSON.stringify(COPY));
