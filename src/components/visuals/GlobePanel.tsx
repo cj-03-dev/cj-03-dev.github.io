@@ -52,7 +52,7 @@ export function GlobePanel({ className = "" }: { className?: string }) {
             <Counter value={90} suffix="+" />
           </p>
           <p className="display mt-3 text-3xl text-paper sm:text-4xl">countries</p>
-          <p className="mt-3 max-w-[26ch] text-sm leading-relaxed text-muted">All seven continents, one phone-first community.</p>
+          <p className="mt-3 max-w-[26ch] text-sm leading-relaxed text-muted">All seven continents.</p>
           <p className="label mt-6 text-[10px] opacity-70">Markers illustrative</p>
         </div>
         <div className="order-1 mx-auto w-full max-w-[460px] md:order-2">

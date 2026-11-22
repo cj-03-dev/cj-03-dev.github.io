@@ -44,7 +44,7 @@ export default function Globe({ className = "" }: { className?: string }) {
       mapBrightness: 4.2,
       mapBaseBrightness: 0.02,
       baseColor: [0.2, 0.18, 0.16],
-      markerColor: [0.949, 0.6, 0.29],
+      markerColor: [0.686, 0.412, 0.933],
       glowColor: [0.24, 0.14, 0.17],
       markers: MARKERS.map((location, i) => ({ location, size: 0.02 + ((i * 37) % 5) * 0.004 })),
       opacity: 0.92,

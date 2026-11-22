@@ -15,7 +15,7 @@ const fonts = [
 const INK = "#0E0D0B";
 const PAPER = "#EDE6D8";
 const MUTED = "#9A9285";
-const APRICOT = "#F2994A";
+const APRICOT = "#AF69EE";
 const LINE = "rgba(237,230,216,0.16)";
 
 // Mark: concentric contour rings (echoes the hero map). No initials.
@@ -36,7 +36,7 @@ const og = h(
   h(
     "div",
     { style: { display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: `1px solid ${LINE}`, paddingBottom: 18 } },
-    h("div", { style: { ...mono, display: "flex" } }, "Chirag Joshi ", h("span", { style: { color: APRICOT, margin: "0 12px" } }, "/"), " Business Consultant ", h("span", { style: { color: APRICOT, margin: "0 12px" } }, "/"), " India"),
+    h("div", { style: { ...mono, display: "flex" } }, "Chirag Joshi ", h("span", { style: { color: APRICOT, margin: "0 12px" } }, "/"), " Operations & Growth ", h("span", { style: { color: APRICOT, margin: "0 12px" } }, "/"), " India"),
     rings(52)
   ),
   h(
@@ -48,7 +48,7 @@ const og = h(
   h(
     "div",
     { style: { display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: `1px solid ${LINE}`, paddingTop: 22 } },
-    h("div", { style: { ...mono, display: "flex" } }, "Business Consultant · Operations · Growth"),
+    h("div", { style: { ...mono, display: "flex" } }, "Operations · Partnerships · Growth"),
     h(
       "div",
       { style: { display: "flex", gap: 34, fontFamily: "JetBrains Mono", fontSize: 22, color: APRICOT } },

@@ -6,7 +6,7 @@
   --color-ink-3: #1f1c18;
   --color-paper: #ede6d8;
   --color-muted: #9a9285;
-  --color-apricot: #f2994a;
+  --color-apricot: #AF69EE;
   --color-plum: #3b1f2b;
   --color-line: rgb(237 230 216 / 0.14);
 
@@ -20,7 +20,7 @@
 
 :root {
   color-scheme: dark;
-  --intro-delay: 1.35s;
+  --intro-delay: 0.95s;
 }
 html[data-intro="seen"] {
   --intro-delay: 0.05s;
@@ -184,7 +184,7 @@ html.lenis body {
   display: grid;
   place-items: center;
   overflow: hidden;
-  animation: intro-gone 0s linear 2.05s forwards;
+  animation: intro-gone 0s linear 1.45s forwards;
 }
 .intro-panel {
   position: absolute;
@@ -192,7 +192,7 @@ html.lenis body {
   right: 0;
   height: 50.5%;
   background: var(--color-ink);
-  animation: 0.85s var(--ease-in-out-quart) 1.2s forwards;
+  animation: 0.6s var(--ease-in-out-quart) 0.82s forwards;
 }
 .intro-panel-top {
   top: 0;
@@ -210,10 +210,10 @@ html.lenis body {
   right: 0;
   bottom: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--color-apricot) 30%, #ffd2a6 50%, var(--color-apricot) 70%, transparent);
-  box-shadow: 0 0 24px 2px rgb(242 153 74 / 0.55);
+  background: linear-gradient(90deg, transparent, var(--color-apricot) 30%, #E6CCFF 50%, var(--color-apricot) 70%, transparent);
+  box-shadow: 0 0 24px 2px rgb(175 105 238 / 0.55);
   opacity: 0;
-  animation: fade-in 0.25s ease 1.05s forwards;
+  animation: fade-in 0.2s ease 0.68s forwards;
 }
 /* concentric rings pulsing out from the centre, like contour lines */
 .intro-rings {
@@ -221,46 +221,52 @@ html.lenis body {
   inset: 0;
   display: grid;
   place-items: center;
-  animation: fade-out 0.35s ease 1.05s forwards;
+  animation: fade-out 0.3s ease 0.72s forwards;
 }
 .intro-rings span {
   position: absolute;
   width: 46vmin;
   aspect-ratio: 1.5;
   border-radius: 50%;
-  border: 1px solid rgb(242 153 74 / 0.55);
-  box-shadow: 0 0 22px rgb(242 153 74 / 0.18), inset 0 0 22px rgb(242 153 74 / 0.12);
+  border: 1px solid rgb(175 105 238 / 0.55);
+  box-shadow: 0 0 22px rgb(175 105 238 / 0.18), inset 0 0 22px rgb(175 105 238 / 0.12);
   opacity: 0;
-  animation: ripple 1.5s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+  animation: ripple 1.1s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
 }
-.intro-rings span:nth-child(2) { animation-delay: 0.18s; }
-.intro-rings span:nth-child(3) { animation-delay: 0.36s; }
-.intro-rings span:nth-child(4) { animation-delay: 0.54s; }
+.intro-rings span:nth-child(2) { animation-delay: 0.12s; }
+.intro-rings span:nth-child(3) { animation-delay: 0.24s; }
+.intro-rings span:nth-child(4) { animation-delay: 0.36s; }
 .intro-content {
   position: relative;
   display: grid;
   justify-items: center;
   gap: 1.4rem;
   padding: 0 1.25rem;
-  animation: content-out 0.4s var(--ease-in-out-quart) 1.0s forwards;
+  animation: content-out 0.3s var(--ease-in-out-quart) 0.72s forwards;
 }
 .intro-name {
-  font-size: clamp(3rem, 11vw, 8.5rem);
+  font-size: clamp(2.4rem, 7.4vw, 6.2rem);
   color: var(--color-paper);
-  white-space: nowrap;
+  text-align: center;
+  line-height: 1;
 }
 .intro-char {
   display: inline-block;
   overflow: clip;
   vertical-align: top;
-  padding-bottom: 0.12em;
-  margin-bottom: -0.12em;
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+  padding-right: 0.06em;
+  margin-right: 0.22em;
+}
+.intro-char:last-child {
+  margin-right: 0;
 }
 .intro-char > span {
   display: inline-block;
   transform: translateY(110%);
-  animation: rise 0.8s var(--ease-out-expo) forwards;
-  animation-delay: calc(0.08s + var(--c) * 0.035s);
+  animation: rise 0.6s var(--ease-out-expo) forwards;
+  animation-delay: calc(0.04s + var(--c) * 0.09s);
 }
 .intro-meter {
   position: relative;
@@ -274,8 +280,8 @@ html.lenis body {
   transform-origin: left;
   transform: scaleX(0);
   background: var(--color-apricot);
-  box-shadow: 0 0 12px rgb(242 153 74 / 0.8);
-  animation: meter 0.95s cubic-bezier(0.65, 0, 0.35, 1) 0.05s forwards;
+  box-shadow: 0 0 12px rgb(175 105 238 / 0.8);
+  animation: meter 0.62s cubic-bezier(0.65, 0, 0.35, 1) 0.05s forwards;
 }
 .intro-meta {
   display: flex;
@@ -292,7 +298,7 @@ html.lenis body {
   color: var(--color-apricot);
   font-variant-numeric: tabular-nums;
   counter-reset: pct var(--pct);
-  animation: count 0.95s cubic-bezier(0.65, 0, 0.35, 1) 0.05s forwards;
+  animation: count 0.62s cubic-bezier(0.65, 0, 0.35, 1) 0.05s forwards;
 }
 .intro-num::after {
   content: counter(pct, decimal-leading-zero) "%";

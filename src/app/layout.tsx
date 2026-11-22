@@ -85,7 +85,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           Skip to content
         </a>
-        {/* Loading screen (pure CSS): glowing rings pulse out, the name rises letter by letter,
+        {/* Loading screen (pure CSS, about 1.4s): glowing rings pulse out, three words rise in,
             a meter counts to 100, then the screen splits open along a glowing seam. */}
         <div className="intro" aria-hidden="true">
           <div className="intro-panel intro-panel-top" />
@@ -98,9 +98,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </div>
           <div className="intro-content">
             <p className="intro-name display">
-              {"Chirag Joshi".split("").map((ch, i) => (
-                <span key={i} className="intro-char">
-                  <span style={{ ["--c" as string]: i }}>{ch === " " ? " " : ch}</span>
+              {["Operations.", "Partnerships.", "Growth."].map((w, i) => (
+                <span key={w} className="intro-char">
+                  <span style={{ ["--c" as string]: i }} className={i === 2 ? "italic text-apricot" : undefined}>
+                    {w}
+                  </span>
                 </span>
               ))}
             </p>
@@ -108,7 +110,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <span className="intro-bar" />
             </div>
             <div className="intro-meta">
-              <span>Business Consultant · Operations · Growth</span>
+              <span>Loading</span>
               <span className="intro-num" />
             </div>
           </div>

@@ -60,14 +60,14 @@ export function Candles({ className = "", count = 42, cover = false }: { classNa
           const bot = y(Math.min(c.open, c.close));
           return (
             <g key={i} className="candle" style={{ ["--cd" as string]: `${(i * 0.025).toFixed(3)}s` }}>
-              <line x1={x} x2={x} y1={y(c.high)} y2={y(c.low)} stroke={up ? "#F2994A" : "rgba(237,230,216,0.35)"} strokeWidth="1" />
+              <line x1={x} x2={x} y1={y(c.high)} y2={y(c.low)} stroke={up ? "#AF69EE" : "rgba(237,230,216,0.35)"} strokeWidth="1" />
               <rect
                 x={x - step * 0.3}
                 y={top}
                 width={step * 0.6}
                 height={Math.max(1.5, bot - top)}
-                fill={up ? "#F2994A" : "transparent"}
-                stroke={up ? "#F2994A" : "rgba(237,230,216,0.45)"}
+                fill={up ? "#AF69EE" : "transparent"}
+                stroke={up ? "#AF69EE" : "rgba(237,230,216,0.45)"}
                 strokeWidth="1"
               />
             </g>

@@ -39,7 +39,7 @@ export function Roadmap({ className = "" }: { className?: string }) {
               <li key={s.k} className={i === 1 ? "text-center" : i === 2 ? "text-right" : ""}>
                 <span
                   className={`relative inline-block h-[15px] w-[15px] rounded-full border transition-all duration-500 ${
-                    on ? "border-apricot bg-apricot shadow-[0_0_0_6px_rgba(242,153,74,0.15)]" : "border-muted bg-ink"
+                    on ? "border-apricot bg-apricot shadow-[0_0_0_6px_rgba(175,105,238,0.15)]" : "border-muted bg-ink"
                   }`}
                   aria-hidden="true"
                 />

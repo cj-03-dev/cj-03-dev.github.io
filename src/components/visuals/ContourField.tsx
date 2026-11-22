@@ -90,14 +90,14 @@ export function ContourField({ className = "" }: { className?: string }) {
           ctx.setLineDash([]);
           ctx.globalCompositeOperation = "source-over";
           ctx.lineWidth = (accent ? 1.4 : 1) * px;
-          ctx.strokeStyle = accent ? "rgba(242,153,74,0.8)" : `rgba(237,230,216,${k % 4 === 0 ? 0.17 : 0.1})`;
+          ctx.strokeStyle = accent ? "rgba(175,105,238,0.8)" : `rgba(237,230,216,${k % 4 === 0 ? 0.17 : 0.1})`;
           ctx.stroke(p);
 
           // glow around the accent ring (breathing)
           if (accent) {
             ctx.globalCompositeOperation = "lighter";
             ctx.lineWidth = 7 * px;
-            ctx.strokeStyle = `rgba(242,153,74,${0.07 + 0.05 * Math.sin(t * 1.3)})`;
+            ctx.strokeStyle = `rgba(175,105,238,${0.07 + 0.05 * Math.sin(t * 1.3)})`;
             ctx.stroke(p);
           }
 
@@ -110,13 +110,13 @@ export function ContourField({ className = "" }: { className?: string }) {
             ctx.lineDashOffset = off;
             ctx.lineCap = "round";
             ctx.lineWidth = 8 * px; // soft halo
-            ctx.strokeStyle = "rgba(242,153,74,0.10)";
+            ctx.strokeStyle = "rgba(175,105,238,0.10)";
             ctx.stroke(p);
             ctx.lineWidth = 3.5 * px;
-            ctx.strokeStyle = "rgba(242,153,74,0.22)";
+            ctx.strokeStyle = "rgba(175,105,238,0.22)";
             ctx.stroke(p);
             ctx.lineWidth = 1.4 * px; // bright core
-            ctx.strokeStyle = "rgba(255,196,140,0.95)";
+            ctx.strokeStyle = "rgba(228,204,255,0.95)";
             ctx.stroke(p);
           }
         }

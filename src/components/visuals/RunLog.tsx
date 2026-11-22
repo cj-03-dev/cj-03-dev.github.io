@@ -82,8 +82,8 @@ export function RunLog({ className = "" }: { className?: string }) {
           />
           <defs>
             <linearGradient id="runFill" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#F2994A" stopOpacity="0.22" />
-              <stop offset="100%" stopColor="#F2994A" stopOpacity="0" />
+              <stop offset="0%" stopColor="#AF69EE" stopOpacity="0.22" />
+              <stop offset="100%" stopColor="#AF69EE" stopOpacity="0" />
             </linearGradient>
           </defs>
 
@@ -91,19 +91,19 @@ export function RunLog({ className = "" }: { className?: string }) {
           <m.path
             d={`M${xFor(0)} ${yFor(0)} L${xFor(DAYS)} ${yFor(1000)}`}
             fill="none"
-            stroke="#F2994A"
+            stroke="#AF69EE"
             strokeWidth="3"
             strokeLinecap="round"
             style={{ pathLength: progress }}
           />
-          <m.circle cx={headX} cy={headY} r="7" fill="#0E0D0B" stroke="#F2994A" strokeWidth="3" />
+          <m.circle cx={headX} cy={headY} r="7" fill="#0E0D0B" stroke="#AF69EE" strokeWidth="3" />
 
           {/* daily bars: 100 identical runs */}
           <clipPath id={clipId}>
             <m.rect x={X0} y={BAR_TOP - 2} height={BAR_BOTTOM - BAR_TOP + 4} width={barsLit} />
           </clipPath>
           <path d={BARS} fill="rgba(237,230,216,0.1)" />
-          <path d={BARS} fill="#F2994A" clipPath={`url(#${clipId})`} />
+          <path d={BARS} fill="#AF69EE" clipPath={`url(#${clipId})`} />
           <text x={X0} y={H - 8} className="fill-muted font-mono text-[28px] sm:text-[12px]" letterSpacing="1.5">
             DAY 1
           </text>

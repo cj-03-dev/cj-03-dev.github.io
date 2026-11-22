@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 // Cycles through words with a vertical roll. Width is reserved for the
 // longest word so the headline never reflows.
-export function RollingWord({ words, startDelay = 3000, interval = 2400 }: { words: string[]; startDelay?: number; interval?: number }) {
+export function RollingWord({ words, startDelay = 2500, interval = 2400 }: { words: string[]; startDelay?: number; interval?: number }) {
   const [i, setI] = useState(0);
   const reduce = useReducedMotion();
 
