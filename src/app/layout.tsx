@@ -86,23 +86,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           Skip to content
         </a>
-        {/* Loading screen (pure CSS, about 1.4s, no text): contour rings draw in with a glowing
-            core and an orbiting light, ripples pulse out, a meter fills, then the screen splits open. */}
+        {/* Loading screen (pure CSS, about 1.6s, no text): warp-speed stars, a black hole with a
+            spinning accretion disk forms, the camera dives in, then the screen splits open. */}
         <div className="intro" aria-hidden="true">
           <div className="intro-panel intro-panel-top" />
           <div className="intro-panel intro-panel-bottom" />
-          <div className="intro-rings">
-            <span />
-            <span />
-            <span />
-            <span />
-          </div>
-          <div className="intro-content">
-            <IntroMark />
-            <div className="intro-meter">
-              <span className="intro-bar" />
-            </div>
-          </div>
+          <IntroMark />
         </div>
         <MotionProvider>
           <SmoothScroll />

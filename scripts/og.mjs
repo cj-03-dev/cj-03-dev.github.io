@@ -9,6 +9,7 @@ const fonts = [
   { name: "Instrument Serif", data: await font("InstrumentSerif-Regular.ttf"), style: "normal", weight: 400 },
   { name: "Instrument Serif", data: await font("InstrumentSerif-Italic.ttf"), style: "italic", weight: 400 },
   { name: "General Sans", data: await font("GeneralSans-400.ttf"), style: "normal", weight: 400 },
+  { name: "General Sans", data: await font("GeneralSans-600.ttf"), style: "normal", weight: 600 },
   { name: "JetBrains Mono", data: await font("JetBrainsMono-Medium.ttf"), style: "normal", weight: 500 },
 ];
 
@@ -66,7 +67,30 @@ async function render(el, w, hgt, out) {
 }
 
 await render(og, 1200, 630, "og.png");
-const icon = (s) => h("div", { style: { width: s, height: s, display: "flex" } }, rings(s, INK));
+// Favicon: bold "CJ", near-black on a violet gradient tile (crisp at 16px).
+const icon = (s) =>
+  h(
+    "div",
+    {
+      style: {
+        width: s,
+        height: s,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: s * 0.24,
+        background: "linear-gradient(145deg, #C48BF5 0%, #AF69EE 45%, #7B3FC4 100%)",
+        fontFamily: "General Sans",
+        fontWeight: 600,
+        fontSize: s * 0.5,
+        lineHeight: 1,
+        letterSpacing: -s * 0.035,
+        color: "#0E0D0B",
+        paddingBottom: s * 0.02,
+      },
+    },
+    "CJ"
+  );
 await render(icon(32), 32, 32, "favicon-32.png");
 await render(icon(64), 64, 64, "favicon-64.png");
 await render(icon(180), 180, 180, "apple-touch-icon.png");

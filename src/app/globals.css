@@ -20,7 +20,7 @@
 
 :root {
   color-scheme: dark;
-  --intro-delay: 0.95s;
+  --intro-delay: 1.3s;
 }
 html[data-intro="seen"] {
   --intro-delay: 0.05s;
@@ -215,145 +215,126 @@ html[data-theme="light"] .phones-art img {
 }
 
 /* ---------- Intro (pure CSS so it never blocks on JS) ---------- */
+/* Interstellar-style: warp-speed stars, a black hole with a spinning
+   accretion disk and lensed halo forms, the camera dives in, then the
+   screen splits open. Always deep-space dark, whatever the theme. */
 .intro {
   position: fixed;
   inset: 0;
   z-index: 100;
-  display: grid;
-  place-items: center;
   overflow: hidden;
-  animation: intro-gone 0s linear 1.45s forwards;
+  animation: intro-gone 0s linear 1.75s forwards;
 }
 .intro-panel {
   position: absolute;
   left: 0;
   right: 0;
   height: 50.5%;
-  background: var(--color-ink);
-  animation: 0.6s var(--ease-in-out-quart) 0.82s forwards;
+  background: #060509;
+  animation: 0.6s var(--ease-in-out-quart) 1.12s forwards;
 }
-.intro-panel-top {
-  top: 0;
-  animation-name: panel-up;
-}
-.intro-panel-bottom {
-  bottom: 0;
-  animation-name: panel-down;
-}
-/* glowing seam where the screen splits */
-.intro-panel-top::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--color-apricot) 30%, #E6CCFF 50%, var(--color-apricot) 70%, transparent);
-  box-shadow: 0 0 24px 2px rgb(175 105 238 / 0.55);
-  opacity: 0;
-  animation: fade-in 0.2s ease 0.68s forwards;
-}
-/* concentric rings pulsing out from the centre, like contour lines */
-.intro-rings {
+.intro-panel-top { top: 0; animation-name: panel-up; }
+.intro-panel-bottom { bottom: 0; animation-name: panel-down; }
+
+.space {
   position: absolute;
   inset: 0;
   display: grid;
   place-items: center;
-  animation: fade-out 0.3s ease 0.72s forwards;
+  background: radial-gradient(60% 50% at 50% 50%, #140b22 0%, #07060b 70%);
+  animation: space-dive 0.62s cubic-bezier(0.7, 0, 0.84, 0) 0.98s forwards;
 }
-.intro-rings span {
+/* star layers: a 1px dot whose box-shadows are the stars; scaling it = warp */
+.stars {
   position: absolute;
-  width: 46vmin;
-  aspect-ratio: 1.5;
-  border-radius: 50%;
-  border: 1px solid rgb(175 105 238 / 0.55);
-  box-shadow: 0 0 22px rgb(175 105 238 / 0.18), inset 0 0 22px rgb(175 105 238 / 0.12);
-  opacity: 0;
-  animation: ripple 1.1s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
-}
-.intro-rings span:nth-child(2) { animation-delay: 0.12s; }
-.intro-rings span:nth-child(3) { animation-delay: 0.24s; }
-.intro-rings span:nth-child(4) { animation-delay: 0.36s; }
-.intro-content {
-  position: relative;
-  display: grid;
-  justify-items: center;
-  gap: 1.4rem;
-  padding: 0 1.25rem;
-  animation: content-out 0.3s var(--ease-in-out-quart) 0.72s forwards;
-}
-.intro-mark {
-  width: min(56vmin, 340px);
-  height: auto;
-  overflow: visible;
-  transform: scale(0.92);
-  animation: mark-in 0.7s var(--ease-out-expo) forwards;
-}
-.intro-ring,
-.intro-ring-accent {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  animation: draw 0.62s var(--ease-in-out-quart) forwards;
-  animation-delay: calc(0.02s + var(--k) * 0.055s);
-  vector-effect: non-scaling-stroke;
-}
-.intro-ring {
-  stroke: rgb(var(--fg-rgb) / 0.32);
-  stroke-width: 1;
-}
-.intro-ring-accent {
-  stroke: var(--color-apricot);
-  stroke-width: 1.8;
-  filter: drop-shadow(0 0 6px rgb(var(--accent-rgb) / 0.9));
-}
-.intro-core {
-  fill: var(--color-apricot);
-  filter: drop-shadow(0 0 8px rgb(var(--accent-rgb) / 1));
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: core-pulse 0.7s ease-in-out infinite alternate;
-}
-.intro-comet {
-  fill: #fff;
-  filter: drop-shadow(0 0 5px rgb(var(--accent-rgb) / 1)) drop-shadow(0 0 10px rgb(var(--accent-rgb) / 0.8));
-  opacity: 0;
-  animation: fade-in 0.2s ease 0.35s forwards;
-}
-html[data-theme="light"] .intro-comet {
-  fill: var(--color-apricot);
-}
-@keyframes mark-in {
-  to { transform: scale(1); }
-}
-@keyframes core-pulse {
-  from { transform: scale(0.8); opacity: 0.85; }
-  to { transform: scale(1.35); opacity: 1; }
-}.intro-meter {
-  position: relative;
-  width: min(46vw, 220px);
+  left: 50%;
+  top: 50%;
+  width: 1px;
   height: 1px;
-  background: var(--color-line);
+  border-radius: 50%;
+  opacity: 0;
+  will-change: transform, opacity;
 }
-.intro-bar {
+.stars-far { animation: warp 1.15s cubic-bezier(0.55, 0, 1, 0.45) 0s infinite; }
+.stars-near { animation: warp 1.15s cubic-bezier(0.55, 0, 1, 0.45) -0.55s infinite; }
+
+.bh {
+  position: relative;
+  width: min(64vmin, 520px);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  transform: scale(0.35);
+  opacity: 0;
+  animation: bh-form 0.75s var(--ease-out-expo) 0.08s forwards;
+}
+.bh > span { position: absolute; border-radius: 50%; }
+/* soft violet bloom behind everything */
+.bh-glow {
+  width: 80%;
+  height: 80%;
+  background: radial-gradient(circle, rgb(175 105 238 / 0.42) 0%, rgb(175 105 238 / 0.12) 35%, transparent 65%);
+  filter: blur(6px);
+}
+/* the event horizon */
+.bh-core {
+  width: 30%;
+  height: 30%;
+  background: #000;
+  box-shadow: 0 0 0 2px rgb(255 240 255 / 0.85), 0 0 18px 4px rgb(214 170 255 / 0.9), 0 0 60px 10px rgb(175 105 238 / 0.55);
+}
+/* photon ring: lensed light hugging the hole, brightest top and bottom
+   where the far side of the disk is bent over and under it */
+.bh-halo {
+  width: 35%;
+  height: 35%;
+  background: conic-gradient(from 0deg, #fff6ff, rgb(196 140 250 / 0.75) 25%, #fff6ff 50%, rgb(196 140 250 / 0.75) 75%, #fff6ff);
+  -webkit-mask: radial-gradient(closest-side, transparent 84%, #000 88%, #000 96%, transparent 100%);
+  mask: radial-gradient(closest-side, transparent 84%, #000 88%, #000 96%, transparent 100%);
+  filter: drop-shadow(0 0 6px rgb(214 170 255 / 1)) drop-shadow(0 0 18px rgb(175 105 238 / 0.8));
+}
+/* accretion disk: a thin ring flattened into an ellipse, white-hot at the
+   inner edge; the conic layer spins to give it motion */
+.bh-disk {
+  width: 132%;
+  height: 132%;
+  transform: rotate(-6deg) scaleY(0.12);
+}
+.bh-disk::before {
+  content: "";
   position: absolute;
   inset: 0;
-  transform-origin: left;
-  transform: scaleX(0);
-  background: var(--color-apricot);
-  box-shadow: 0 0 12px rgb(175 105 238 / 0.8);
-  animation: meter 0.62s cubic-bezier(0.65, 0, 0.35, 1) 0.05s forwards;
+  border-radius: 50%;
+  background:
+    radial-gradient(closest-side, #fff8ff 24%, rgb(226 194 255) 30%, rgb(175 105 238 / 0.85) 46%, rgb(120 64 200 / 0.4) 68%, transparent 86%),
+    conic-gradient(from 0deg, #fff, rgb(175 105 238 / 0.4), #fff, rgb(110 60 190 / 0.3), #fff, rgb(175 105 238 / 0.4), #fff);
+  background-blend-mode: multiply;
+  -webkit-mask: radial-gradient(closest-side, transparent 22.5%, #000 25%, #000 62%, rgb(0 0 0 / 0.35) 80%, transparent 96%);
+  mask: radial-gradient(closest-side, transparent 22.5%, #000 25%, #000 62%, rgb(0 0 0 / 0.35) 80%, transparent 96%);
+  filter: blur(1.2px) drop-shadow(0 0 10px rgb(196 140 250 / 0.9));
+  animation: spin 1.1s linear infinite;
+}/* front half of the disk passes in front of the hole */
+.bh-disk-front { clip-path: inset(50% 0 0 0); }
+.bh-disk-back { clip-path: inset(0 0 50% 0); opacity: 0.85; }
+
+@keyframes warp {
+  0% { transform: scale(0.15); opacity: 0; }
+  15% { opacity: 1; }
+  100% { transform: scale(2.6); opacity: 0; }
 }
-@keyframes ripple {
-  0% { opacity: 0; transform: scale(0.15); }
-  25% { opacity: 1; }
-  100% { opacity: 0; transform: scale(2.4); }
+@keyframes bh-form {
+  0% { transform: scale(0.35) rotate(-20deg); opacity: 0; }
+  60% { opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
 }
-@keyframes meter { to { transform: scaleX(1); } }
-@keyframes content-out { to { opacity: 0; transform: translateY(-12px) scale(0.98); } }
-@keyframes fade-out { to { opacity: 0; } }
+@keyframes space-dive {
+  to { transform: scale(5); opacity: 0; }
+}
+@keyframes spin { to { rotate: 360deg; } }
 @keyframes panel-up { to { transform: translateY(-101%); } }
 @keyframes panel-down { to { transform: translateY(101%); } }
-@keyframes intro-gone { to { visibility: hidden; } }html[data-intro="seen"] .intro {
+@keyframes intro-gone { to { visibility: hidden; } }
+@keyframes fade-out { to { opacity: 0; } }html[data-intro="seen"] .intro {
   display: none;
 }
 @keyframes draw {
