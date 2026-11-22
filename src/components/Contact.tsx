@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { site } from "@/content/site";
 import { Reveal } from "./Reveal";
 
-function useHyderabadTime() {
+function useIndiaTime() {
   const [t, setT] = useState<string | null>(null);
   useEffect(() => {
     const fmt = new Intl.DateTimeFormat("en-GB", {
@@ -26,7 +26,7 @@ function useHyderabadTime() {
 
 export function Contact() {
   const [copied, setCopied] = useState(false);
-  const time = useHyderabadTime();
+  const time = useIndiaTime();
 
   const copy = async () => {
     try {
@@ -57,7 +57,7 @@ export function Contact() {
             <span className="mx-2 text-apricot">/</span>
             Contact
           </p>
-          <p className="label hidden sm:block">Bengaluru · Hyderabad · Remote</p>
+          <p className="label hidden sm:block">Bengaluru · Remote</p>
         </div>
 
         <Reveal>
@@ -107,7 +107,7 @@ export function Contact() {
 
         <div className="mt-20 flex flex-col gap-4 border-t border-line py-6 sm:mt-28 sm:flex-row sm:items-center sm:justify-between">
           <p className="label">
-            Hyderabad <span className="mx-1.5 text-apricot">/</span>
+            India <span className="mx-1.5 text-apricot">/</span>
             <span className="tabular-nums text-paper">{time ?? "--:--:--"}</span> IST
           </p>
           <p className="label">© 2026 Chirag Joshi</p>

@@ -62,7 +62,7 @@ export function Contours({ className = "" }: { className?: string }) {
         <path d="M900 270v-18M900 330v18M870 300h-18M930 300h18" />
       </g>
       <text x="928" y="276" className="font-mono max-md:hidden" fill="#9A9285" fontSize="13" letterSpacing="2">
-        BASE / HYD
+        SURVEY PT. 01
       </text>
     </svg>
   );

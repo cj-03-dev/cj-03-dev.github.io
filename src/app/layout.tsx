@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     url: "/",
     siteName: site.name,
     type: "website",
-    images: [{ url: asset("/og.png"), width: 1200, height: 630, alt: "Chirag Joshi. I raise the funding. I run the thing. I file the report." }],
+    images: [{ url: asset("/og.png"), width: 1200, height: 630, alt: "Chirag Joshi. I raise the funding. I run the team. I file the report." }],
   },
   twitter: {
     card: "summary_large_image",

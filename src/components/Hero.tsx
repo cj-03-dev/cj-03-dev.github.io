@@ -46,7 +46,9 @@ export function Hero() {
               </span>
             ))}
           </p>
-          <p className="label hidden sm:block">17.385° N, 78.487° E</p>
+          <p className="label hidden sm:block">
+            Field report <span className="mx-2 text-apricot">/</span> 2026
+          </p>
         </div>
 
         <div className="flex flex-1 flex-col justify-center py-10 sm:py-14">

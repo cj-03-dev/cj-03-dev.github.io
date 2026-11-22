@@ -7,17 +7,17 @@ export const site = {
   phone: "+91 6389227333",
   phoneHref: "tel:+916389227333",
   linkedin: "https://www.linkedin.com/in/cj-ceo-vm/",
-  location: "Hyderabad, IN",
+  location: "India",
   title: "Chirag Joshi · Operations, Partnerships & Growth",
   description:
     "Operations, partnerships and growth. Secured conference funding from NATO, built a phone-photography community across 90+ countries, and ran 1,000 km in 100 days for flood relief.",
 };
 
 export const hero = {
-  label: ["Chirag Joshi", "Operator", "Hyderabad, IN"],
+  label: ["Chirag Joshi", "Operator", "India"],
   // Line 2 ends with a rolling word. The first entry is shown first.
   lines: ["I raise the funding.", "I run the", "I file the report."],
-  rolling: ["thing.", "conference.", "campaign.", "community."],
+  rolling: ["team.", "project.", "growth.", "GTM."],
   subline:
     "Operations, partnerships and growth. Former founder. I've secured conference funding from NATO, built a photography community across 90+ countries, and ran 1,000 km in 100 days to raise money for flood relief.",
   status: "Open to ops, growth and Founder's Office roles",
@@ -47,7 +47,6 @@ export const marquee = [
   "MIT DEDP",
   "MPs",
   "Prime Ministers",
-  "Classmate",
   "Jadavpur University",
   "The Tribune",
   "Milaap",
@@ -319,10 +318,10 @@ export const about = {
   close:
     "I like work where someone has to find the money, line up the people and make sure it actually happens. Long term, I want to build in human longevity.",
   facts: [
-    { k: "Based in", v: "Hyderabad, IN" },
+    { k: "Based in", v: "India" },
     { k: "Degree", num: "8.6", v: "GPA, BA (Hons) Political Science, Jadavpur University, 2024" },
     { k: "Studying", v: "MIT MicroMasters, Data, Economics and Design of Policy" },
-    { k: "Open to", v: "Bengaluru · Hyderabad · Remote" },
+    { k: "Open to", v: "Bengaluru · Remote" },
   ] as { k: string; v: string; num?: string }[],
   skills: [
     "Partnerships",
@@ -378,7 +377,7 @@ export const timeline: TimelineItem[] = [
 export const now = {
   updated: "Updated Nov 2026",
   items: [
-    "Looking for an ops, growth or Founder's Office role in Bengaluru, Hyderabad or remote.",
+    "Looking for an ops, growth or Founder's Office role in Bengaluru or remote.",
     "Building Stonefruit.",
     "Preparing for the GMAT.",
   ],

@@ -36,14 +36,14 @@ const og = h(
   h(
     "div",
     { style: { display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: `1px solid ${LINE}`, paddingBottom: 22 } },
-    h("div", { style: { ...mono, display: "flex" } }, "Chirag Joshi ", h("span", { style: { color: APRICOT, margin: "0 12px" } }, "/"), " Operator ", h("span", { style: { color: APRICOT, margin: "0 12px" } }, "/"), " Hyderabad, IN"),
+    h("div", { style: { ...mono, display: "flex" } }, "Chirag Joshi ", h("span", { style: { color: APRICOT, margin: "0 12px" } }, "/"), " Operator ", h("span", { style: { color: APRICOT, margin: "0 12px" } }, "/"), " India"),
     mark(46)
   ),
   h(
     "div",
     { style: { display: "flex", flexDirection: "column", flex: 1, justifyContent: "center", fontFamily: "Instrument Serif", fontSize: 104, lineHeight: 0.95, letterSpacing: -2 } },
     h("div", { style: { display: "flex" } }, "I raise the funding."),
-    h("div", { style: { display: "flex" } }, "I run the ", h("span", { style: { fontStyle: "italic", color: APRICOT } }, "conference.")),
+    h("div", { style: { display: "flex" } }, "I run the ", h("span", { style: { fontStyle: "italic", color: APRICOT } }, "team.")),
     h("div", { style: { display: "flex" } }, "I file the report.")
   ),
   h(

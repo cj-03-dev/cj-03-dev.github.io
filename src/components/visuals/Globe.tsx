@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 
 // Illustrative spread across all seven continents (not a member list).
 const MARKERS: [number, number][] = [
-  [17.385, 78.4867], [28.6139, 77.209], [19.076, 72.8777], [22.5726, 88.3639], [12.9716, 77.5946],
+  [28.6139, 77.209], [19.076, 72.8777], [22.5726, 88.3639], [12.9716, 77.5946],
   [6.9271, 79.8612], [23.8103, 90.4125], [27.7172, 85.324], [24.8607, 67.0011], [1.3521, 103.8198],
   [13.7563, 100.5018], [-6.2088, 106.8456], [14.5995, 120.9842], [35.6762, 139.6503], [37.5665, 126.978],
   [31.2304, 121.4737], [25.2048, 55.2708], [41.0082, 28.9784], [35.6892, 51.389], [51.5072, -0.1276],
@@ -46,7 +46,7 @@ export default function Globe({ className = "" }: { className?: string }) {
       baseColor: [0.2, 0.18, 0.16],
       markerColor: [0.949, 0.6, 0.29],
       glowColor: [0.24, 0.14, 0.17],
-      markers: MARKERS.map((location, i) => ({ location, size: i === 0 ? 0.05 : 0.02 + ((i * 37) % 5) * 0.004 })),
+      markers: MARKERS.map((location, i) => ({ location, size: 0.02 + ((i * 37) % 5) * 0.004 })),
       opacity: 0.92,
     });
 
