@@ -9,6 +9,7 @@ import { Nav } from "@/components/Nav";
 import { MotionProvider } from "@/components/MotionProvider";
 import { RevealObserver } from "@/components/RevealObserver";
 import { IntroMark } from "@/components/IntroMark";
+import { BLACK_HOLE_SCRIPT } from "@/lib/blackHoleScript";
 
 const instrument = Instrument_Serif({
   subsets: ["latin"],
@@ -92,7 +93,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="intro-panel intro-panel-top" />
           <div className="intro-panel intro-panel-bottom" />
           <IntroMark />
+          {/* Ray-traced WebGL black hole; replaces the CSS scene when WebGL works */}
+          <canvas id="bh-gl" className="bh-canvas" suppressHydrationWarning />
         </div>
+        <script dangerouslySetInnerHTML={{ __html: BLACK_HOLE_SCRIPT }} />
         <MotionProvider>
           <SmoothScroll />
           <RevealObserver />
