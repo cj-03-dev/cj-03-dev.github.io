@@ -26,6 +26,36 @@ html[data-intro="seen"] {
   --intro-delay: 0.05s;
 }
 
+/* Raw RGB channels for canvas/SVG drawing (follow the theme) */
+:root {
+  --fg-rgb: 237 230 216;
+  --bg-rgb: 14 13 11;
+  --accent-rgb: 175 105 238;
+}
+
+/* ---------- Light theme (opt-in; dark is always the default) ---------- */
+html[data-theme="light"] {
+  color-scheme: light;
+  --color-ink: #f6f3ee;
+  --color-ink-2: #ece7df;
+  --color-ink-3: #e2dcd2;
+  --color-paper: #16140f;
+  --color-muted: #686157;
+  --color-line: rgb(22 20 15 / 0.14);
+  --color-apricot: #9550dd;
+  --fg-rgb: 22 20 15;
+  --bg-rgb: 246 243 238;
+  --accent-rgb: 149 80 221;
+}
+html[data-theme="light"] .grain {
+  opacity: 0.05;
+  filter: invert(1);
+}
+html,
+body {
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
 html {
   background: var(--color-ink);
   -webkit-text-size-adjust: 100%;

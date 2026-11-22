@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import { ThemeToggle } from "./ThemeToggle";
 
 const links = [
   { label: "Work", href: "/#work" },
@@ -57,6 +58,7 @@ export function Nav() {
               </li>
             ))}
           </ul>
+          <ThemeToggle />
           <a
             href="#contact"
             onClick={(e) => {

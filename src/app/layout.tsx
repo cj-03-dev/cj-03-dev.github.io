@@ -66,7 +66,7 @@ export const viewport: Viewport = {
 };
 
 // Runs before paint: skip the intro on repeat visits in the same session.
-const introScript = `document.documentElement.classList.add('js');try{var s=sessionStorage;if(s.getItem('cj-intro')){document.documentElement.dataset.intro='seen'}else{s.setItem('cj-intro','1')}}catch(e){}`;
+const introScript = `document.documentElement.classList.add('js');try{if(sessionStorage.getItem('cj-theme')==='light')document.documentElement.dataset.theme='light'}catch(e){}try{var s=sessionStorage;if(s.getItem('cj-intro')){document.documentElement.dataset.intro='seen'}else{s.setItem('cj-intro','1')}}catch(e){}`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

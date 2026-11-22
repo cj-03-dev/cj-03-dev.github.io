@@ -29,11 +29,11 @@ export const stats: { value: number; suffix: string; label: string; icon: StatIc
   { value: 90, suffix: "+", label: "countries, Public Phone", icon: "globe" },
   { value: 7, suffix: "", label: "continents reached", icon: "continents" },
   { value: 1000, suffix: " km", label: "run in 100 days", icon: "route" },
-  { value: 1, suffix: "M+", label: "campaign impressions", icon: "signal" },
-  { value: 3, suffix: "", label: "continents of donors", icon: "donors" },
+  { value: 10, suffix: "M+", label: "impressions generated for clients", icon: "signal" },
+  { value: 3, suffix: "", label: "continents my nonprofit got donations from", icon: "donors" },
   { value: 30, suffix: "+", label: "pieces published", icon: "doc" },
-  { value: 2, suffix: "", label: "conferences run end to end", icon: "podium" },
-  { value: 6500, suffix: "+", label: "LinkedIn followers", icon: "people" },
+  { value: 4, suffix: "", label: "international youth conferences run end to end", icon: "podium" },
+  { value: 7000, suffix: "+", label: "LinkedIn followers", icon: "people" },
 ];
 
 export const marquee = [

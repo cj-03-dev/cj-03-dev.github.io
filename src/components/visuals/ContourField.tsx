@@ -21,14 +21,14 @@ const RX = 1.25;
 const RY = 0.82;
 
 function ring(c: Center, k: number, t: number) {
-  const r0 = (c.base + k * c.gap) * (1 + 0.018 * Math.sin(t * 0.55 + k * 0.5 + c.seed));
+  const r0 = (c.base + k * c.gap) * (1 + 0.02 * Math.sin(t * 1.2 + k * 0.5 + c.seed));
   const pts: [number, number][] = [];
   for (let i = 0; i < N; i++) {
     const a = (i / N) * Math.PI * 2;
     const wob =
-      0.13 * Math.sin(3 * a + c.seed + k * 0.22 + t * 0.22) +
-      0.08 * Math.sin(5 * a + c.seed * 2.3 - k * 0.15 - t * 0.17) +
-      0.05 * Math.sin(2 * a + c.seed * 0.7 + k * 0.4 + t * 0.11);
+      0.13 * Math.sin(3 * a + c.seed + k * 0.22 + t * 0.5) +
+      0.08 * Math.sin(5 * a + c.seed * 2.3 - k * 0.15 - t * 0.38) +
+      0.05 * Math.sin(2 * a + c.seed * 0.7 + k * 0.4 + t * 0.26);
     const r = r0 * (1 + wob);
     pts.push([c.x + Math.cos(a) * r * RX, c.y + Math.sin(a) * r * RY]);
   }
@@ -58,7 +58,18 @@ export function ContourField({ className = "" }: { className?: string }) {
     if (!ctx) return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const small = window.matchMedia("(max-width: 767px)").matches;
-    const fps = small ? 24 : 30;
+    const fps = small ? 30 : 45;
+    // Colours come from CSS variables so the map follows the dark/light theme.
+    const theme = { fg: "237 230 216", accent: "175 105 238", light: false };
+    const readTheme = () => {
+      const cs = getComputedStyle(document.documentElement);
+      theme.fg = cs.getPropertyValue("--fg-rgb").trim() || "237 230 216";
+      theme.accent = cs.getPropertyValue("--accent-rgb").trim() || "175 105 238";
+      theme.light = document.documentElement.dataset.theme === "light";
+    };
+    readTheme();
+    const fg = (a: number) => `rgb(${theme.fg} / ${a})`;
+    const ac = (a: number) => `rgb(${theme.accent} / ${a})`;
     let dpr = Math.min(window.devicePixelRatio || 1, 2);
     let s = 1, ox = 0, oy = 0;
 
@@ -78,8 +89,9 @@ export function ContourField({ className = "" }: { className?: string }) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.setTransform(s, 0, 0, s, ox, oy);
       const px = dpr / s; // 1 CSS pixel in map units
-      // slow overall drift
-      ctx.translate(Math.sin(t * 0.07) * 14, Math.cos(t * 0.05) * 10);
+      // overall drift
+      ctx.translate(Math.sin(t * 0.16) * 18, Math.cos(t * 0.12) * 12);
+      const glowOp = theme.light ? "source-over" : "lighter";
 
       CENTERS.forEach((c, ci) => {
         for (let k = 0; k < c.rings; k++) {
@@ -90,33 +102,33 @@ export function ContourField({ className = "" }: { className?: string }) {
           ctx.setLineDash([]);
           ctx.globalCompositeOperation = "source-over";
           ctx.lineWidth = (accent ? 1.4 : 1) * px;
-          ctx.strokeStyle = accent ? "rgba(175,105,238,0.8)" : `rgba(237,230,216,${k % 4 === 0 ? 0.17 : 0.1})`;
+          ctx.strokeStyle = accent ? ac(0.85) : fg(k % 4 === 0 ? 0.17 : 0.1);
           ctx.stroke(p);
 
           // glow around the accent ring (breathing)
           if (accent) {
-            ctx.globalCompositeOperation = "lighter";
+            ctx.globalCompositeOperation = glowOp;
             ctx.lineWidth = 7 * px;
-            ctx.strokeStyle = `rgba(175,105,238,${0.07 + 0.05 * Math.sin(t * 1.3)})`;
+            ctx.strokeStyle = ac(0.07 + 0.05 * Math.sin(t * 2.2));
             ctx.stroke(p);
           }
 
           // travelling light pulses on every third ring
           if ((k + ci) % 3 === 0 && !reduce) {
             const len = per * 0.07;
-            const off = -((t * (18 + k * 2) + c.seed * 400 + k * 97) % per);
-            ctx.globalCompositeOperation = "lighter";
+            const off = -((t * (46 + k * 5) + c.seed * 400 + k * 97) % per);
+            ctx.globalCompositeOperation = glowOp;
             ctx.setLineDash([len, per - len]);
             ctx.lineDashOffset = off;
             ctx.lineCap = "round";
             ctx.lineWidth = 8 * px; // soft halo
-            ctx.strokeStyle = "rgba(175,105,238,0.10)";
+            ctx.strokeStyle = ac(theme.light ? 0.12 : 0.1);
             ctx.stroke(p);
             ctx.lineWidth = 3.5 * px;
-            ctx.strokeStyle = "rgba(175,105,238,0.22)";
+            ctx.strokeStyle = ac(theme.light ? 0.3 : 0.22);
             ctx.stroke(p);
             ctx.lineWidth = 1.4 * px; // bright core
-            ctx.strokeStyle = "rgba(228,204,255,0.95)";
+            ctx.strokeStyle = theme.light ? ac(1) : "rgba(228,204,255,0.95)";
             ctx.stroke(p);
           }
         }
@@ -128,10 +140,20 @@ export function ContourField({ className = "" }: { className?: string }) {
     resize();
     draw(0);
     requestAnimationFrame(() => (canvas.style.opacity = "1"));
+    let lastT = 0;
+    // re-read colours when the theme switches
+    const themeObs = new MutationObserver(() => {
+      readTheme();
+      draw(lastT);
+    });
+    themeObs.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
     if (reduce) {
       const onR = () => { resize(); draw(0); };
       window.addEventListener("resize", onR);
-      return () => window.removeEventListener("resize", onR);
+      return () => {
+        themeObs.disconnect();
+        window.removeEventListener("resize", onR);
+      };
     }
 
     let raf = 0;
@@ -143,7 +165,8 @@ export function ContourField({ className = "" }: { className?: string }) {
       raf = requestAnimationFrame(loop);
       if (now - last < 1000 / fps) return;
       last = now;
-      draw((now - start) / 1000);
+      lastT = (now - start) / 1000;
+      draw(lastT);
     };
     let ready = false;
     const play = () => {
@@ -176,6 +199,7 @@ export function ContourField({ className = "" }: { className?: string }) {
       clearTimeout(kick);
       pause();
       io.disconnect();
+      themeObs.disconnect();
       document.removeEventListener("visibilitychange", onVis);
       window.removeEventListener("resize", onResize);
     };

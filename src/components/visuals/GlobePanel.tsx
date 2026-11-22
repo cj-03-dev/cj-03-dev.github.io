@@ -34,7 +34,7 @@ export function GlobePanel({ className = "" }: { className?: string }) {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img {...img("/images/public-phone")} sizes="(min-width: 1024px) 50vw, 100vw" alt="" loading="lazy" className="h-full w-full object-cover" />
       </div>
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,transparent_20%,#161411_75%)]" aria-hidden="true" />
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,transparent_20%,var(--color-ink-2)_75%)]" aria-hidden="true" />
 
       <div className="flex items-center justify-between border-b border-line px-4 py-3 sm:px-6">
         <p className="label">

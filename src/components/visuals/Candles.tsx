@@ -51,7 +51,7 @@ export function Candles({ className = "", count = 42, cover = false }: { classNa
         aria-hidden="true"
       >
         {[0.25, 0.5, 0.75].map((f) => (
-          <line key={f} x1={pad} x2={W - pad} y1={H * f} y2={H * f} stroke="rgba(237,230,216,0.07)" strokeDasharray="2 6" />
+          <line key={f} x1={pad} x2={W - pad} y1={H * f} y2={H * f} style={{ stroke: "rgb(var(--fg-rgb) / 0.07)" }} strokeDasharray="2 6" />
         ))}
         {candles.map((c, i) => {
           const up = c.close >= c.open;
@@ -60,20 +60,19 @@ export function Candles({ className = "", count = 42, cover = false }: { classNa
           const bot = y(Math.min(c.open, c.close));
           return (
             <g key={i} className="candle" style={{ ["--cd" as string]: `${(i * 0.025).toFixed(3)}s` }}>
-              <line x1={x} x2={x} y1={y(c.high)} y2={y(c.low)} stroke={up ? "#AF69EE" : "rgba(237,230,216,0.35)"} strokeWidth="1" />
+              <line x1={x} x2={x} y1={y(c.high)} y2={y(c.low)} strokeWidth="1" style={{ stroke: up ? "var(--color-apricot)" : "rgb(var(--fg-rgb) / 0.35)" }} />
               <rect
                 x={x - step * 0.3}
                 y={top}
                 width={step * 0.6}
                 height={Math.max(1.5, bot - top)}
-                fill={up ? "#AF69EE" : "transparent"}
-                stroke={up ? "#AF69EE" : "rgba(237,230,216,0.45)"}
+                style={{ fill: up ? "var(--color-apricot)" : "transparent", stroke: up ? "var(--color-apricot)" : "rgb(var(--fg-rgb) / 0.45)" }}
                 strokeWidth="1"
               />
             </g>
           );
         })}
-        <path className="avg" d={avgPath} pathLength={1} fill="none" stroke="#EDE6D8" strokeOpacity="0.55" strokeWidth="1.2" />
+        <path className="avg" d={avgPath} pathLength={1} fill="none" strokeOpacity="0.55" strokeWidth="1.2" style={{ stroke: "var(--color-paper)" }} />
       </svg>
     </div>
   );

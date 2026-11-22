@@ -61,7 +61,7 @@ export function RunLog({ className = "" }: { className?: string }) {
           {/* grid */}
           {[0, 250, 500, 750, 1000].map((k) => (
             <g key={k}>
-              <line x1={X0} x2={X1} y1={yFor(k)} y2={yFor(k)} stroke="rgba(237,230,216,0.1)" strokeDasharray={k === 0 ? undefined : "2 6"} />
+              <line x1={X0} x2={X1} y1={yFor(k)} y2={yFor(k)} style={{ stroke: "rgb(var(--fg-rgb) / 0.1)" }} strokeDasharray={k === 0 ? undefined : "2 6"} />
               <text x={X0 - 10} y={yFor(k) + 4} textAnchor="end" className="fill-muted font-mono text-[30px] sm:text-[13px]">
                 {k === 0 ? "0" : `${k}`}
               </text>
@@ -72,7 +72,7 @@ export function RunLog({ className = "" }: { className?: string }) {
           </text>
 
           {/* ghost target line */}
-          <line x1={xFor(0)} y1={yFor(0)} x2={xFor(DAYS)} y2={yFor(1000)} stroke="rgba(237,230,216,0.12)" strokeWidth="1.5" strokeDasharray="1 7" strokeLinecap="round" />
+          <line x1={xFor(0)} y1={yFor(0)} x2={xFor(DAYS)} y2={yFor(1000)} style={{ stroke: "rgb(var(--fg-rgb) / 0.12)" }} strokeWidth="1.5" strokeDasharray="1 7" strokeLinecap="round" />
 
           {/* area under the line */}
           <m.path
@@ -82,8 +82,8 @@ export function RunLog({ className = "" }: { className?: string }) {
           />
           <defs>
             <linearGradient id="runFill" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#AF69EE" stopOpacity="0.22" />
-              <stop offset="100%" stopColor="#AF69EE" stopOpacity="0" />
+              <stop offset="0%" stopOpacity="0.22" style={{ stopColor: "var(--color-apricot)" }} />
+              <stop offset="100%" stopOpacity="0" style={{ stopColor: "var(--color-apricot)" }} />
             </linearGradient>
           </defs>
 
@@ -91,19 +91,18 @@ export function RunLog({ className = "" }: { className?: string }) {
           <m.path
             d={`M${xFor(0)} ${yFor(0)} L${xFor(DAYS)} ${yFor(1000)}`}
             fill="none"
-            stroke="#AF69EE"
+            style={{ pathLength: progress, stroke: "var(--color-apricot)" }}
             strokeWidth="3"
             strokeLinecap="round"
-            style={{ pathLength: progress }}
           />
-          <m.circle cx={headX} cy={headY} r="7" fill="#0E0D0B" stroke="#AF69EE" strokeWidth="3" />
+          <m.circle cx={headX} cy={headY} r="7" strokeWidth="3" style={{ fill: "var(--color-ink-2)", stroke: "var(--color-apricot)" }} />
 
           {/* daily bars: 100 identical runs */}
           <clipPath id={clipId}>
             <m.rect x={X0} y={BAR_TOP - 2} height={BAR_BOTTOM - BAR_TOP + 4} width={barsLit} />
           </clipPath>
-          <path d={BARS} fill="rgba(237,230,216,0.1)" />
-          <path d={BARS} fill="#AF69EE" clipPath={`url(#${clipId})`} />
+          <path d={BARS} style={{ fill: "rgb(var(--fg-rgb) / 0.1)" }} />
+          <path d={BARS} clipPath={`url(#${clipId})`} style={{ fill: "var(--color-apricot)" }} />
           <text x={X0} y={H - 8} className="fill-muted font-mono text-[28px] sm:text-[12px]" letterSpacing="1.5">
             DAY 1
           </text>
