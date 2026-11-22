@@ -35,12 +35,13 @@ export function IntroMark() {
     <div className="space" aria-hidden="true">
       <span className="stars stars-far" style={{ boxShadow: FAR }} />
       <span className="stars stars-near" style={{ boxShadow: NEAR }} />
+      {/* Back to front: glow, lensed image of the disk's far side (arcing over the
+          top and under the bottom), the shadow, then the disk crossing in front. */}
       <div className="bh">
         <span className="bh-glow" />
-        <span className="bh-disk bh-disk-back" />
-        <span className="bh-halo" />
+        <span className="bh-lens" />
         <span className="bh-core" />
-        <span className="bh-disk bh-disk-front" />
+        <span className="bh-disk" />
       </div>
     </div>
   );
