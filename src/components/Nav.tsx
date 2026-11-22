@@ -43,7 +43,6 @@ export function Nav() {
           <span className="display text-[2rem] leading-none text-paper transition-colors duration-300 group-hover:text-apricot">
             CJ
           </span>
-          <span className="h-1.5 w-1.5 translate-y-[-0.1rem] rounded-full bg-apricot" aria-hidden="true" />
         </Link>
         <div className="flex items-center gap-1 sm:gap-2">
           <ul className="hidden items-center md:flex">
