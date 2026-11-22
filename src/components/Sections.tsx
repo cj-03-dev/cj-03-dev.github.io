@@ -1,6 +1,7 @@
 import { about, also, now, site, timeline } from "@/content/site";
 import { img } from "@/lib/asset";
 import { Reveal } from "./Reveal";
+import { Reg } from "./Reg";
 import { TimelineRail } from "./TimelineRail";
 import { ParallaxImage } from "./visuals/ParallaxImage";
 
@@ -71,7 +72,7 @@ export function About() {
               <dl className="grid flex-1 content-start gap-3.5 text-sm">
                 {about.facts.map((f) => (
                   <div key={f.k} className="border-b border-line pb-3 last:border-0 last:pb-0">
-                    <dt className="label text-[10px]">{f.k}</dt>
+                    <dt className="label text-[10px]"><Reg text={f.k} /></dt>
                     <dd className="mt-1.5">
                       <span className="block leading-snug text-paper">{f.title}</span>
                       {f.lines?.map((l) => (
@@ -92,7 +93,7 @@ export function About() {
             <p className="display text-[clamp(3rem,7vw,6rem)] text-paper">{first}.</p>
           </Reveal>
           <Reveal delay={0.08}>
-            <p className="mt-8 max-w-[52ch] text-lg leading-relaxed text-paper/80 sm:text-xl">{rest.join(". ")}</p>
+            <p className="mt-8 max-w-[52ch] text-lg leading-relaxed text-paper/80 sm:text-xl"><Reg text={rest.join(". ")} /></p>
           </Reveal>
           <Reveal delay={0.12}>
             <blockquote className="mt-10 border-l-2 border-apricot pl-6">

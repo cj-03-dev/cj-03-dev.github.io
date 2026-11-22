@@ -157,11 +157,6 @@ html.lenis body {
   padding-right: 0.04em;
 }
 
-/* Rolling italic word: extra room for slanted overhangs and deep descenders (g, p, j). */
-.mask-roll {
-  padding: 0.14em 0.25em 0.34em 0.22em;
-  margin: -0.14em -0.25em -0.34em -0.22em;
-}
 
 .uline {
   background-image: linear-gradient(currentColor, currentColor);
@@ -382,6 +377,18 @@ html:not(.js) .candles .avg {
   animation: draw 2s var(--ease-in-out-quart) 0.6s forwards;
 }
 
+/* Rolling italic word: fades and rises in (no clip), so overhanging letters are never cut */
+.roll-in {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.3em);
+  animation: roll-in 1s var(--ease-out-expo) forwards;
+  animation-delay: calc(var(--intro-delay) + var(--i, 0) * 70ms);
+}
+@keyframes roll-in {
+  to { opacity: 1; transform: none; }
+}
+
 /* Pulsing status dot */
 .pulse {
   position: relative;
@@ -414,6 +421,10 @@ html:not(.js) .candles .avg {
 /* ---------- Reduced motion: everything becomes a simple fade ---------- */
 @media (prefers-reduced-motion: reduce) {
   .intro { display: none; }
+  .roll-in {
+    transform: none;
+    animation: fade-in 0.6s ease forwards;
+  }
   .rise {
     transform: none;
     opacity: 0;

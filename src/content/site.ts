@@ -8,19 +8,19 @@ export const site = {
   phoneHref: "tel:+916389227333",
   linkedin: "https://www.linkedin.com/in/cj-ceo-vm/",
   location: "India",
-  title: "Chirag Joshi · Operations, Partnerships & Growth",
+  title: "Chirag Joshi · Business Consultant, Operations & Growth",
   description:
-    "Operations, partnerships and growth. Secured conference funding from NATO, built a phone-photography community across 90+ countries, and ran 1,000 km in 100 days for flood relief.",
+    "Business consultant working across operations, partnerships and growth. Secured conference funding from NATO, built a phone-photography community across 90+ countries, and ran 1,000 km in 100 days for flood relief.",
 };
 
 export const hero = {
-  label: ["Chirag Joshi", "Operator", "India"],
-  // Line 2 ends with a rolling word. The first entry is shown first.
+  label: ["Chirag Joshi", "Business Consultant", "India"],
+  // The headline ends with a rolling word. The first entry is shown first.
   line: "I run the",
   rolling: ["team.", "project.", "growth.", "GTM.", "funding."],
   subline:
-    "Operations, partnerships and growth. Former founder. I've secured conference funding from NATO, built a photography community across 90+ countries, and ran 1,000 km in 100 days to raise money for flood relief.",
-  status: "Open to ops, growth and Founder's Office roles",
+    "Business consultant across operations, partnerships and growth. Former founder. I've secured conference funding from NATO, built a photography community across 90+ countries, and ran 1,000 km in 100 days to raise money for flood relief.",
+  status: "Open to consulting, ops, growth and Founder's Office roles",
 };
 
 export type StatIcon = "globe" | "continents" | "route" | "signal" | "donors" | "doc" | "podium" | "people";
@@ -314,7 +314,7 @@ export const also = [
 ];
 
 export const about = {
-  body: "I'm Chirag. I studied Political Science at Jadavpur University and I'm doing MIT's MicroMasters in Data, Economics and Design of Policy. I founded and ran Visual Merge, a phone-photography community and nonprofit, worked as a business consultant at Universal Hunt, and lead grants and engagements at The Geostrata, India's largest youth think tank.",
+  body: "I'm Chirag. I work as a business consultant across operations, partnerships and growth. I studied Political Science at Jadavpur University and I'm doing MIT's MicroMasters® in Data, Economics and Design of Policy. I've been a business consultant at Universal Hunt, founded and ran Visual Merge, a phone-photography community and nonprofit, and lead grants and engagements at The Geostrata, India's largest youth think tank.",
   close:
     "I like work where someone has to find the money, line up the people and make sure it actually happens. Long term, I want to build in human longevity.",
   // About card. title = main line, lines = smaller lines under it, badge = highlighted figure.
@@ -322,13 +322,14 @@ export const about = {
     { k: "Based in", title: "India" },
     { k: "Degree", title: "BA (Hons) Political Science", lines: ["Jadavpur University, 2024"], badge: "8.6 GPA" },
     {
-      k: "MicroMasters",
+      k: "MicroMasters®",
       title: "Data, Economics and Design of Policy",
-      lines: ["Massachusetts Institute of Technology", "Registered, expected 2027"],
+      lines: ["Massachusetts Institute of Technology", "Expected 2027"],
     },
     { k: "Diploma", title: "Media Literacy", lines: ["U.S. Department of State, 2023"] },
   ] as { k: string; title: string; lines?: string[]; badge?: string }[],
   skills: [
+    "Business consulting",
     "Partnerships",
     "Fundraising",
     "Programme ops",
@@ -377,10 +378,10 @@ export const timeline: TimelineItem[] = [
     detail: "Equity & Diversity Officer, Debating Society.",
   },
   {
-    org: "MIT MicroMasters",
+    org: "MIT MicroMasters®",
     role: "Data, Economics and Design of Policy",
     when: "Expected 2027",
-    detail: "Massachusetts Institute of Technology. Registered.",
+    detail: "Massachusetts Institute of Technology.",
   },
   { org: "U.S. Department of State", role: "Diploma in Media Literacy", when: "2023" },
 ];

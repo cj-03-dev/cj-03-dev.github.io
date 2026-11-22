@@ -4,6 +4,7 @@ import { m, useReducedMotion, useScroll, useSpring } from "motion/react";
 import { useRef } from "react";
 import type { TimelineItem } from "@/content/site";
 import { Reveal } from "./Reveal";
+import { Reg } from "./Reg";
 
 export function TimelineRail({ items }: { items: TimelineItem[] }) {
   const ref = useRef<HTMLOListElement>(null);
@@ -23,7 +24,7 @@ export function TimelineRail({ items }: { items: TimelineItem[] }) {
         <Reveal as="li" key={it.org} delay={0.04} className={`relative ${i === items.length - 1 ? "" : "pb-12 sm:pb-14"}`}>
           <span className="absolute -left-8 top-[0.55rem] h-[11px] w-[11px] rounded-full border border-apricot bg-ink sm:-left-12" aria-hidden="true" />
           <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
-            <h3 className="display text-[1.9rem] leading-tight text-paper sm:text-[2.4rem]">{it.org}</h3>
+            <h3 className="display text-[1.9rem] leading-tight text-paper sm:text-[2.4rem]"><Reg text={it.org} /></h3>
             {it.when && <p className="label">{it.when}</p>}
           </div>
           {it.ladder ? (

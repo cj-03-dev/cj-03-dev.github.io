@@ -108,7 +108,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <span className="intro-bar" />
             </div>
             <div className="intro-meta">
-              <span>Operations · Partnerships · Growth</span>
+              <span>Business Consultant · Operations · Growth</span>
               <span className="intro-num" />
             </div>
           </div>

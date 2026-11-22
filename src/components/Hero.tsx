@@ -49,10 +49,10 @@ export function Hero() {
         <div className="flex flex-1 flex-col justify-center py-10 sm:py-14">
           <h1 className="display text-[clamp(3rem,12.5vw,10.5rem)] text-paper">
             <Words text={hero.line} start={0} />
-            <span className="mask mask-roll">
-              <span className="rise" style={{ ["--i" as string]: n }}>
-                <RollingWord words={hero.rolling} />
-              </span>
+            {/* No clipping box here on purpose: italic letters like the f in "funding"
+                overhang their box, so this word fades and rises in instead of using a mask. */}
+            <span className="roll-in" style={{ ["--i" as string]: n }}>
+              <RollingWord words={hero.rolling} />
             </span>
           </h1>
 
