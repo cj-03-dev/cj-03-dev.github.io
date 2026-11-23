@@ -56,6 +56,12 @@ body {
   transition: background-color 0.4s ease, color 0.4s ease;
 }
 
+/* Tailwind v4 gives buttons the arrow cursor; use the hand like links do */
+button:not(:disabled),
+[role="button"]:not([aria-disabled="true"]) {
+  cursor: pointer;
+}
+
 html {
   background: var(--color-ink);
   -webkit-text-size-adjust: 100%;
