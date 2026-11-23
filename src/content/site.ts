@@ -33,7 +33,7 @@ export const stats: { value: number; suffix: string; label: string; icon: StatIc
   { value: 3, suffix: "", label: "continents my nonprofit got donations from", icon: "donors" },
   { value: 30, suffix: "+", label: "pieces published", icon: "doc" },
   { value: 4, suffix: "", label: "international youth conferences run end to end", icon: "podium" },
-  { value: 7000, suffix: "+", label: "LinkedIn followers", icon: "people" },
+  { value: 7000, suffix: "+", label: "followers community on LinkedIn", icon: "people" },
 ];
 
 export const marquee = [
